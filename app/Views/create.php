@@ -21,4 +21,5 @@
         <input type="text" name="price" class="form-control" value="<?= old('price') ?>">
     </div>
     <button type="submit" class="btn btn-primary">Add Product</button>
+    <button class="btn btn-secondary "><a href="/" class="text-decoration-none text-white" >Cancel</a></button>
 </form>

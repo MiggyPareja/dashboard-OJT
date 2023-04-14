@@ -23,5 +23,5 @@
         <input type="text" class="form-control" id="price" name="price" value="<?= $product['price'] ?>">
     </div>
     <button type="submit" class="btn btn-primary">Update</button>
-    <a href="/" class="btn btn-secondary">Cancel</a>
+    <button class="btn btn-secondary "><a href="/" class="text-decoration-none text-white" >Cancel</a></button>
 </form>

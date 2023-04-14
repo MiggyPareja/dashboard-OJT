@@ -19,7 +19,9 @@ class ProductController extends BaseController
    }
    public function create(){
 
-    return view('create');
+    return  view('templates/header')
+           .view('create')
+           .view('templates/footer');
 
    }
    public function store()
@@ -51,7 +53,9 @@ class ProductController extends BaseController
    {
     $model = new ProductModel();
     $data['product'] =$model->find($id);
-    return view('edit',$data);
+    return view('templates/header')
+            .view('edit', $data)
+            .view('templates/footer');
 
    }
    public function update($id){

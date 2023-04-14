@@ -4,8 +4,8 @@
 
 <form action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
     <div class="input-group">
-        <input type="text" name="search" class="form-control" placeholder="Search...">
-        <button type="submit" class="btn btn-outline-secondary">Search</button>
+        <input type="text" name="search" class="ml-2" placeholder="Search...">
+        <button type="submit" class="btn btn-outline-secondary ml-2">Search</button>
     </div>
 </form>
 
@@ -25,13 +25,15 @@
     <div class="alert alert-success"><?= session()->getFlashdata('query') ?></div>
 <?php endif; ?>     
 
-    <table class="table">
+    <table class="table table-hover table-responsive{-sm|-md|-lg|-xl}">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Created At</th>
+                <th>Updated At</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -39,10 +41,12 @@
             <?php foreach($products as $product): ?>
             
             <tr>
-                <td><?=$product['id'] ?></td>
+                <td class="font-weight-bold"><?=$product['id'] ?></td>
                 <td><?= $product['name'] ?></td>
                 <td><?= $product['description'] ?></td>
                 <td><?= $product['price'] ?></td>
+                <td><?= $product['created_at'] ?></td>
+                <td><?= $product['updated_at']?></td>
                 <td>
                     <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning">Edit</a>
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
