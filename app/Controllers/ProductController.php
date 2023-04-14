@@ -6,13 +6,14 @@ use CodeIgniter\Controller;
 helper('session');
 class ProductController extends BaseController
 {
+    
    public function index()
    {
     $model = new ProductModel();
     $data = [
         'products' => $model ->findAll(),
     ];
-
+    
     return  view('templates/header',$data)
            .view('index', $data)
            .view('templates/footer');
@@ -53,6 +54,7 @@ class ProductController extends BaseController
    {
     $model = new ProductModel();
     $data['product'] =$model->find($id);
+    
     return view('templates/header')
             .view('edit', $data)
             .view('templates/footer');
@@ -69,13 +71,14 @@ class ProductController extends BaseController
     $model->update($id,$data);
     session()->setFlashdata('update', 'Product updated successfully.');
     return redirect()->to('/');
+    
    }
     public function delete($id = null)
     {
         $model = new ProductModel();
         $model->delete($id);
         session()->setFlashdata('delete', 'Deleted Successfully.');
-        return redirect()->to('/');
+        return redirect()->back();
     }
     public function search()
     {
@@ -83,11 +86,11 @@ class ProductController extends BaseController
         $searchTerm = $this->request->getGet('search');
         
         $data = [
-            'products' =>$model->like(['name'=> $searchTerm])->findAll()
+            'products' =>$model->like(['name'=> $searchTerm])
+                                ->orLike(['description' => $searchTerm])
+                                ->orLike(['price' => $searchTerm])
+                                ->findAll()
         ];
-        
-            
-        
         session()->setFlashdata('query', 'Query Accepted');
         return view('templates/header')
               .view('index', $data)

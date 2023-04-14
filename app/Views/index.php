@@ -1,11 +1,11 @@
-<h1><a href="/" class="text-decoration-none text-dark">Products</a></h1>
+<h1 class="ml-2"><a href="/" class="text-decoration-none text-dark">Products</a></h1>
 
-<a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3"> Add Products</a>
 
-<form action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
-    <div class="input-group">
-        <input type="text" name="search" class="ml-2" placeholder="Search...">
-        <button type="submit" class="btn btn-outline-secondary ml-2">Search</button>
+<a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3 ml-2 "><i class="bi bi-cart-plus"></i> Add Products</a>
+<form class="float-right mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
+    <div class="input-group ">
+        <input type="text" name="search" class="ml-2" on placeholder="Search...">
+        <button type="submit" class="btn btn-outline-primary ml-2"><i class="bi bi-search"></i> Search</button>
     </div>
 </form>
 
@@ -41,18 +41,18 @@
             <?php foreach($products as $product): ?>
             
             <tr>
-                <td class="font-weight-bold"><?=$product['id'] ?></td>
+                <td class="font-weight-bold">#<?=$product['id'] ?></td>
                 <td><?= $product['name'] ?></td>
                 <td><?= $product['description'] ?></td>
-                <td><?= $product['price'] ?></td>
+                <td><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
                 <td><?= $product['created_at'] ?></td>
                 <td><?= $product['updated_at']?></td>
                 <td>
-                    <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning">Edit</a>
+                    <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning"><i class="bi bi-pencil-fill"></i> Edit</a>
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
                         <?= csrf_field() ?>
                         <input type="hidden" name="method" value="DELETE" >
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')"><i class="bi bi-trash"></i> Delete</button>
                     </form>
                 </td>
             </tr>
