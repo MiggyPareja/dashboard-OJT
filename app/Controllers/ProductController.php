@@ -29,8 +29,8 @@ class ProductController extends BaseController
 {
     
     $rules = [
-            'name' => 'required',
-            'description' => 'required',
+            'name' => 'required|min_length[2]',
+            'description' => 'required|min_length[10]',
             'price' => 'required|numeric'];
 
     if (!$this->validate($rules)) {

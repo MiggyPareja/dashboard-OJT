@@ -36,6 +36,7 @@ $routes->get('product/edit/(:num)', 'ProductController::edit/$1');
 $routes->post('product/update/(:num)', 'ProductController::update/$1');
 $routes->post('product/delete/(:num)', 'ProductController::delete/$1');
 $routes->get('product/search/','ProductController::search');
+$routes->get('/upload','UploadController::Upload');
 
 
 /*

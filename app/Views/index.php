@@ -1,11 +1,11 @@
-<h1 class="ml-2"><a href="/" class="text-decoration-none text-dark">Products</a></h1>
+<!-- <h1 class="ml-2"><a href="/" class="text-decoration-none text-dark">Products</a></h1> -->
 
 
 <a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3 ml-2 "><i class="bi bi-cart-plus"></i> Add Products</a>
 <form class="float-right mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
     <div class="input-group ">
         <input type="text" name="search" class="ml-2" on placeholder="Search...">
-        <button type="submit" class="btn btn-outline-primary ml-2"><i class="bi bi-search"></i> Search</button>
+        <button type="submit" class="btn btn-outline-primary ml-2 "><i class="bi bi-search"></i> Search</button>
     </div>
 </form>
 
