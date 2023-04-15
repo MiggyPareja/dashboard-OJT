@@ -13,19 +13,19 @@
 </form>
 <br> <br>
 <?php if (session()->getFlashdata('success')): ?>
-    <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+    <div class="alert alert-success timer"><?= session()->getFlashdata('success') ?></div>
 <?php endif; ?>
 <?php if (session()->getFlashdata('update')): ?>
-    <div class="alert alert-success"><?= session()->getFlashdata('update') ?></div>
+    <div class="alert alert-success timer"><?= session()->getFlashdata('update') ?></div>
 <?php endif; ?>
 <?php if (session()->getFlashdata('error')): ?>
-    <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+    <div class="alert alert-danger timer"><?= session()->getFlashdata('error') ?></div>
 <?php endif; ?>
 <?php if (session()->getFlashdata('delete')): ?>
-    <div class="alert alert-warning"><?= session()->getFlashdata('delete') ?></div>
+    <div class="alert alert-warning timer"><?= session()->getFlashdata('delete') ?></div>
 <?php endif; ?>  
 <?php if (session()->getFlashdata('query')): ?>
-    <div class="alert alert-success"><?= session()->getFlashdata('query') ?></div>
+    <div class="alert alert-success timer"><?= session()->getFlashdata('query') ?></div>
 <?php endif; ?>    
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
