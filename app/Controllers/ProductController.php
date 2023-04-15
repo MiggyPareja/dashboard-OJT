@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\ProductModel;
 use CodeIgniter\Files\File;
 use CodeIgniter\Controller;
+use PharIo\Manifest\Library;
 helper('session');
 
 class ProductController extends BaseController
@@ -20,9 +21,12 @@ class ProductController extends BaseController
            .view('index', $data)
            .view('templates/footer');
    }
+    
    public function store()
 {
     helper('filesystem');
+    helper('url');
+    $productModel = new ProductModel();
     $rules = [
             'name' => 'required|min_length[2]',
             'description' => 'required|min_length[2]',
@@ -33,11 +37,10 @@ class ProductController extends BaseController
         session()->setFlashdata('error', 'Incomplete Form.');
         return redirect()->to('/');
     }
-    $productModel = new ProductModel();
-
+    
     $file = $this->request->getFile('pic');
     $fileName = $file->getRandomName();
-    $file->move('.\writable\uploads', $fileName);
+    $file->move('writable\uploads\upload', $fileName);
 
     $product = ['name' => $this->request->getVar('name'),
                 'description' => $this->request->getVar('description'),
@@ -45,8 +48,6 @@ class ProductController extends BaseController
                 'pic' =>$fileName,
             ];
     $productModel->insert($product);
-    
-
     session()->setFlashdata('success', 'PRODUCT ADDED SUCCESSFULLY');
     return redirect()->to('/');
 

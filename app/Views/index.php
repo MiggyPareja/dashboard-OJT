@@ -37,9 +37,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-    <form action="<?= base_url('product/store') ?>" method="post">
-    <?=csrf_field() ?>
+      <div class="modal-body">  
+<form action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
+    <?= csrf_field() ?>
 
     <div class="form-group">
         <label for="name">Name: </label>
@@ -48,7 +48,7 @@
 
     <div class="form-group">
         <label for="pic"  class="">Picture: </label>
-        <input type="file" id="pic" name="pic" enctype="multipart/form-data">
+        <input type="file" id="pic" name="pic">
     </div>
 
     <div class="form-group">
@@ -60,17 +60,16 @@
         <label for="price">Price: </label>
         <input type="text" name="price" class="form-control" value="<?= old('price') ?>">
     </div>
-        
-      </div>
-      <div class="modal-footer">
-      <button type="submit" class="btn btn-primary">Add Product</button>
-      <button class="btn btn-primary"data-dismiss="modal" aria-label="Close">Cancel</button>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
 
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Add Product</button>
+        <button class="btn btn-primary"data-dismiss="modal" aria-label="Close">Cancel</button>
+    </div>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
     <table class="table table-hover table-responsive{-sm|-md|-lg|-xl}">
         <thead>
             <tr>
@@ -91,7 +90,7 @@
                 <td class="font-weight-bold">#<?=$product['id'] ?></td>
                 <td><?= $product['name'] ?></td>
                 <td><?= $product['pic'] ?></td>
-                <td><?= $product['description'] ?></td>
+                <td class="text-wrap "><?= $product['description'] ?></td>
                 <td><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
                 <td><?= $product['created_at'] ?></td>
                 <td><?= $product['updated_at']?></td>
