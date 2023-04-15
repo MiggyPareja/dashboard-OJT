@@ -38,7 +38,7 @@
         </button>
       </div>
       <div class="modal-body">
-      <form action="<?= base_url('product/store') ?>" method="post">
+    <form action="<?= base_url('product/store') ?>" method="post">
     <?=csrf_field() ?>
 
     <div class="form-group">
@@ -46,10 +46,9 @@
         <input type="text" name="name" class="form-control" value="<?= old('name')?>">
     </div>
 
-    <div class=" custom-file ">
-        
-            <label for="file"  class="">Picture: </label>
-            <input type="file" class=""id="" name="pic" required>
+    <div class="form-group">
+        <label for="pic"  class="">Picture: </label>
+        <input type="file" id="pic" name="pic" enctype="multipart/form-data">
     </div>
 
     <div class="form-group">
@@ -66,8 +65,8 @@
       <div class="modal-footer">
       <button type="submit" class="btn btn-primary">Add Product</button>
       <button class="btn btn-primary"data-dismiss="modal" aria-label="Close">Cancel</button>
-    </form>
       </div>
+    </form>
     </div>
   </div>
 </div>
