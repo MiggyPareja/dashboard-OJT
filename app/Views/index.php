@@ -89,7 +89,7 @@
             <tr>
                 <td class="font-weight-bold">#<?=$product['id'] ?></td>
                 <td><?= $product['name'] ?></td>
-                <td><?= $product['pic'] ?></td>
+                <td><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
                 <td class="text-wrap "><?= $product['description'] ?></td>
                 <td><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
                 <td><?= $product['created_at'] ?></td>

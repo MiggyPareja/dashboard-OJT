@@ -103,6 +103,11 @@ class ProductController extends BaseController
               .view('index', $data)
               .view('templates/footer');
     }
+    public function download($fileName) {
+        $path = WRITEPATH . 'uploads/' . $fileName;
+    
+        return $this->response->download($path, null);
+    }
     
 }
 ?>
