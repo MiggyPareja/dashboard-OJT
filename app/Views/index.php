@@ -1,14 +1,17 @@
 <!-- <h1 class="ml-2"><a href="/" class="text-decoration-none text-dark">Products</a></h1> -->
 
 
-<a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3 ml-2 "><i class="bi bi-cart-plus"></i> Add Products</a>
-<form class="float-right mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
-    <div class="input-group ">
+<div class="float-left">
+        <a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3 ml-2 "><i class="bi bi-cart-plus"></i> Add Products</a>
+        <a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3 ml-2 "><i class="bi bi-upload"></i> Upload File</a>
+    </div>
+<form class=" mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
+    <div class=" float-right">
         <input type="text" name="search" class="ml-2" on placeholder="Search...">
         <button type="submit" class="btn btn-outline-primary ml-2 "><i class="bi bi-search"></i> Search</button>
     </div>
 </form>
-
+<br> <br>
 <?php if (session()->getFlashdata('success')): ?>
     <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
 <?php endif; ?>

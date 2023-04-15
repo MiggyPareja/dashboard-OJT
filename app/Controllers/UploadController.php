@@ -9,9 +9,10 @@ class UploadController extends BaseController
 {
 
     public function Upload()
-    {
+    {   
+        
         return view('templates/header')
-               .view('templates/footer');
+              .view('templates/footer');
     }
 }
 

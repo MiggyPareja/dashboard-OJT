@@ -30,7 +30,7 @@ class ProductController extends BaseController
     
     $rules = [
             'name' => 'required|min_length[2]',
-            'description' => 'required|min_length[10]',
+            'description' => 'required|min_length[2]',
             'price' => 'required|numeric'];
 
     if (!$this->validate($rules)) {
@@ -38,7 +38,6 @@ class ProductController extends BaseController
         return redirect()->to('/');
     }
 
-    
     $productModel = new ProductModel();
     $product = ['name' => $this->request->getVar('name'),
                 'description' => $this->request->getVar('description'),
@@ -91,10 +90,15 @@ class ProductController extends BaseController
                                 ->orLike(['price' => $searchTerm])
                                 ->findAll()
         ];
+        if(empty($searchTerm)){
+            session()->setFlashdata('error', 'Empty Query.');
+            return redirect()->to('/');
+        }
         session()->setFlashdata('query', 'Query Accepted');
         return view('templates/header')
               .view('index', $data)
               .view('templates/footer');
     }
+    
 }
 ?>
