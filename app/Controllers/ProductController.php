@@ -31,6 +31,7 @@ class ProductController extends BaseController
             'name' => 'required|min_length[2]',
             'description' => 'required|min_length[2]',
             'price' => 'required|numeric',
+            'pic' => 'uploaded[pic]|max_size[pic,2048]'
         ];
     
     if (!$this->validate($rules)) {
