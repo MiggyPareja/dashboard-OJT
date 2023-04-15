@@ -40,7 +40,7 @@ class ProductController extends BaseController
     
     $file = $this->request->getFile('pic');
     $fileName = $file->getRandomName();
-    $file->move('writable\uploads\upload', $fileName);
+    $file->move('C:\xampp\htdocs\dashboard-OJT\writable\uploads', $fileName);
 
     $product = ['name' => $this->request->getVar('name'),
                 'description' => $this->request->getVar('description'),
@@ -104,9 +104,15 @@ class ProductController extends BaseController
               .view('templates/footer');
     }
     public function download($fileName) {
-        $path = WRITEPATH . 'uploads/' . $fileName;
+        $path = WRITEPATH . "uploads/" .$fileName ;
+
+        if (!file_exists($path)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
+        }
     
         return $this->response->download($path, null);
+    
+        
     }
     
 }
