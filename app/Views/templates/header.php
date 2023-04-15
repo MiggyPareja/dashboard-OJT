@@ -25,7 +25,7 @@
         <a class="nav-link" href="/upload">Upload</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link">Disabled</a>
+        <a class="nav-link">Download</a>
       </li>
     </ul>
   </div>

@@ -3,12 +3,12 @@
 
 <div class="float-left">
         <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
-        
+        <a  class="btn btn-primary mb-3 ml-2"><i class="bi bi-database-add"></i> Import DB</a>
     </div>
 <form class=" mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
-    <div class=" float-right">
-        <input type="text" name="search" class="ml-2" on placeholder="Search...">
-        <button type="submit" class="btn btn-outline-primary ml-2 "><i class="bi bi-search"></i> Search</button>
+    <div class=" float-right mb-3">
+        <input type="text" name="search" class=" ml-2" on placeholder="Search...">
+        <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>
     </div>
 </form>
 <br> <br>
@@ -32,7 +32,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Add Product</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -40,9 +40,16 @@
       <div class="modal-body">
       <form action="<?= base_url('product/store') ?>" method="post">
     <?=csrf_field() ?>
+
     <div class="form-group">
         <label for="name">Name: </label>
         <input type="text" name="name" class="form-control" value="<?= old('name')?>">
+    </div>
+
+    <div class=" custom-file ">
+        
+            <label for="file"  class="">Picture: </label>
+            <input type="file" class=""id="" name="pic" required>
     </div>
 
     <div class="form-group">
@@ -54,16 +61,11 @@
         <label for="price">Price: </label>
         <input type="text" name="price" class="form-control" value="<?= old('price') ?>">
     </div>
-        <div class="form-group">
-            <label for="file">Picture: </label>
-            <a href="<?= base_url('product/create') ?>" class="btn btn-primary "><i class="bi bi-upload" name="file"></i> Import</a>
-            
-        </div>
+        
       </div>
       <div class="modal-footer">
       <button type="submit" class="btn btn-primary">Add Product</button>
-    
-    <button class="btn btn-secondary "><a href="/" class="text-decoration-none text-white" >Cancel</a></button>
+      <button class="btn btn-primary"data-dismiss="modal" aria-label="Close">Cancel</button>
     </form>
       </div>
     </div>
@@ -89,7 +91,7 @@
             <tr>
                 <td class="font-weight-bold">#<?=$product['id'] ?></td>
                 <td><?= $product['name'] ?></td>
-                <td></td>
+                <td><?= $product['pic'] ?></td>
                 <td><?= $product['description'] ?></td>
                 <td><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
                 <td><?= $product['created_at'] ?></td>

@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\ProductModel;
 use CodeIgniter\Controller;
 helper('session');
+helper('filesystem');
 class ProductController extends BaseController
 {
     
@@ -20,11 +21,12 @@ class ProductController extends BaseController
    }
    public function store()
 {
-    
     $rules = [
             'name' => 'required|min_length[2]',
             'description' => 'required|min_length[2]',
-            'price' => 'required|numeric'];
+            'price' => 'required|numeric',
+            'pic' => 'uploaded[image]|max_size[image,1024]|ext_in[image,jpg,jpeg,png]'
+        ];
 
     if (!$this->validate($rules)) {
         session()->setFlashdata('error', 'Incomplete Form.');
@@ -35,9 +37,10 @@ class ProductController extends BaseController
     $product = ['name' => $this->request->getVar('name'),
                 'description' => $this->request->getVar('description'),
                 'price' => $this->request->getVar('price'),
+                'pic' => $this->request->getFile('pic')
                 
             ];
-
+            
     $productModel->insert($product);
     session()->setFlashdata('success', 'PRODUCT ADDED SUCCESSFULLY');
     return redirect()->to('/');
