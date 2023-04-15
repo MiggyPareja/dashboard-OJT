@@ -2,8 +2,8 @@
 
 
 <div class="float-left">
-        <a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3 ml-2 "><i class="bi bi-cart-plus"></i> Add Products</a>
-        <a href="<?= base_url('product/create') ?>" class="btn btn-primary mb-3 ml-2 "><i class="bi bi-upload"></i> Upload File</a>
+        <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
+        
     </div>
 <form class=" mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
     <div class=" float-right">
@@ -19,20 +19,63 @@
     <div class="alert alert-success"><?= session()->getFlashdata('update') ?></div>
 <?php endif; ?>
 <?php if (session()->getFlashdata('error')): ?>
-    <div class="alert alert-warning"><?= session()->getFlashdata('error') ?></div>
+    <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
 <?php endif; ?>
 <?php if (session()->getFlashdata('delete')): ?>
-    <div class="alert alert-danger"><?= session()->getFlashdata('delete') ?></div>
+    <div class="alert alert-warning"><?= session()->getFlashdata('delete') ?></div>
 <?php endif; ?>  
 <?php if (session()->getFlashdata('query')): ?>
     <div class="alert alert-success"><?= session()->getFlashdata('query') ?></div>
-<?php endif; ?>     
+<?php endif; ?>    
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form action="<?= base_url('product/store') ?>" method="post">
+    <?=csrf_field() ?>
+    <div class="form-group">
+        <label for="name">Name: </label>
+        <input type="text" name="name" class="form-control" value="<?= old('name')?>">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description: </label>
+        <textarea name="description" class="form-control"><?= old('description') ?></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price: </label>
+        <input type="text" name="price" class="form-control" value="<?= old('price') ?>">
+    </div>
+        <div class="form-group">
+            <label for="file">Picture: </label>
+            <a href="<?= base_url('product/create') ?>" class="btn btn-primary "><i class="bi bi-upload" name="file"></i> Import</a>
+            
+        </div>
+      </div>
+      <div class="modal-footer">
+      <button type="submit" class="btn btn-primary">Add Product</button>
+    
+    <button class="btn btn-secondary "><a href="/" class="text-decoration-none text-white" >Cancel</a></button>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>
 
     <table class="table table-hover table-responsive{-sm|-md|-lg|-xl}">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Image</th>
                 <th>Description</th>
                 <th>Price</th>
                 <th>Created At</th>
@@ -46,6 +89,7 @@
             <tr>
                 <td class="font-weight-bold">#<?=$product['id'] ?></td>
                 <td><?= $product['name'] ?></td>
+                <td></td>
                 <td><?= $product['description'] ?></td>
                 <td><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
                 <td><?= $product['created_at'] ?></td>

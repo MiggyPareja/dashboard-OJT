@@ -18,13 +18,6 @@ class ProductController extends BaseController
            .view('index', $data)
            .view('templates/footer');
    }
-   public function create(){
-
-    return  view('templates/header')
-           .view('create')
-           .view('templates/footer');
-
-   }
    public function store()
 {
     
@@ -35,16 +28,18 @@ class ProductController extends BaseController
 
     if (!$this->validate($rules)) {
         session()->setFlashdata('error', 'Incomplete Form.');
-        return redirect()->to('/');
+        return redirect()->to('/product/create');
     }
 
     $productModel = new ProductModel();
     $product = ['name' => $this->request->getVar('name'),
                 'description' => $this->request->getVar('description'),
-                'price' => $this->request->getVar('price')];
+                'price' => $this->request->getVar('price'),
+                
+            ];
 
     $productModel->insert($product);
-    session()->setFlashdata('success', 'Product created successfully.');
+    session()->setFlashdata('success', 'PRODUCT ADDED SUCCESSFULLY');
     return redirect()->to('/');
 
 }
@@ -68,7 +63,7 @@ class ProductController extends BaseController
     ];
 
     $model->update($id,$data);
-    session()->setFlashdata('update', 'Product updated successfully.');
+    session()->setFlashdata('update', 'PRODUCT UPDATED SUCCESSFULLY.');
     return redirect()->to('/');
     
    }
@@ -76,7 +71,7 @@ class ProductController extends BaseController
     {
         $model = new ProductModel();
         $model->delete($id);
-        session()->setFlashdata('delete', 'Deleted Successfully.');
+        session()->setFlashdata('delete', 'DELETED SUCCESSFULLY.');
         return redirect()->back();
     }
     public function search()
@@ -91,10 +86,10 @@ class ProductController extends BaseController
                                 ->findAll()
         ];
         if(empty($searchTerm)){
-            session()->setFlashdata('error', 'Empty Query.');
+            session()->setFlashdata('error', 'INVALID INPUT.');
             return redirect()->to('/');
         }
-        session()->setFlashdata('query', 'Query Accepted');
+        session()->setFlashdata('query', 'INPUT ACCEPTED');
         return view('templates/header')
               .view('index', $data)
               .view('templates/footer');
