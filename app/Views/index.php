@@ -45,7 +45,7 @@
     </div>
 
     <div class="form-group">
-        <label for="pic"  class="">Picture: </label>
+        <label for="pic"  class="">File/Img: </label>
         <input type="file" id="pic" name="pic">
     </div>
 
@@ -104,7 +104,7 @@
             <tr>
                 <th class="user-select-auto">ID</th>
                 <th class="user-select-none">Name</th>
-                <th class="user-select-none">Image</th>
+                <th class="user-select-none">File/Img</th>
                 <th class="user-select-none">Description</th>
                 <th class="user-select-none">Price</th>
                 <th class="user-select-none">Created At</th>

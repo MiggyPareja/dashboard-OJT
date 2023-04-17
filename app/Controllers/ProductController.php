@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers;
 use App\Models\ProductModel;
+use DirectoryIterator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ProductController extends BaseController
@@ -77,15 +78,14 @@ class ProductController extends BaseController
     }
     public function update($id)
 {
-
     helper('filesystem');
 
     $model = new ProductModel();
+
     $data = [
         'name' => $this->request->getPost('name'),
         'description' => $this->request->getPost('description'),
         'price' => $this->request->getPost('price'),
-        'pic' => $this->request->getFile('pic'),
     ];
 
     $file = $this->request->getFile('pic');
@@ -93,22 +93,31 @@ class ProductController extends BaseController
         $fileName = $file->getRandomName();
         $file->move(WRITEPATH . 'uploads', $fileName);
         $data['pic'] = $fileName;
-    } 
-
+    }
 
     $model->update($id, $data);
 
-    session()->setFlashdata('update', 'PRODUCT UPDATED SUCCESSFULLY.');
-    return redirect()->withInput()->to('/');
+    session()->setFlashdata('success', 'Product updated successfully.');
+
+    return redirect()->to('/');
 }
 
-    public function delete($id = null)
-    {
-        $model = new ProductModel();
-        $model->delete($id);
-        session()->setFlashdata('delete', 'DELETED SUCCESSFULLY.');
-        return redirect()->withInput()-> to('/');
+
+public function delete($id = null)
+{
+    $model = new ProductModel();
+    $product = $model->find($id);
+
+    // Delete the uploaded file
+    $filepath = WRITEPATH . 'uploads/' . $product['pic'];
+    if (file_exists($filepath)) {
+        unlink($filepath);
     }
+
+    $model->delete($id);
+    session()->setFlashdata('delete', 'DELETED SUCCESSFULLY.');
+    return redirect()->withInput()->to('/');
+}
     public function search()
     {
         $model = new ProductModel();
@@ -144,9 +153,13 @@ class ProductController extends BaseController
     {
     $model = new ProductModel();
     $products = $model->findAll(); 
-    
     if(!empty($products))
     {
+        foreach (new DirectoryIterator('writable\uploads') as $fileInfo) {
+            if(!$fileInfo->isDot()) {
+                unlink($fileInfo->getPathname());
+            }
+        }
         $model->db->table('products')->truncate();
         session()->setFlashdata('success', 'Table Cleared Successfully');
     }

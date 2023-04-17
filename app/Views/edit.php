@@ -8,14 +8,14 @@
     <div class="alert alert-danger"><?= $validation->listErrors() ?></div>
 <?php endif; ?>
 
-<form action="/product/update/<?= $product['id'] ?>" method="post">
+<form action="/product/update/<?= $product['id'] ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <div class="mb-3">
         <label for="name" class="form-label">Name: </label>
         <input type="text" class="form-control" id="name" name="name" value="<?= $product['name'] ?>">
     </div>
     <div class="mb-3">
-        <label for="pic" class="form-label" enctype="multipart/form-data">Image: </label>
+        <label for="pic" class="form-label" enctype="multipart/form-data">File/Img: </label>
         <input type="file" id="pic" name="pic">
     </div>
     <div class="mb-3">
