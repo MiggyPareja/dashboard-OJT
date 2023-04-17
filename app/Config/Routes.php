@@ -38,6 +38,7 @@ $routes->post('product/delete/(:num)', 'ProductController::delete/$1');
 $routes->get('product/search/','ProductController::search');
 $routes->get('/upload','UploadController::Upload');
 $routes->get('product/download/(:any)', 'ProductController::download/$1');
+$routes->get('/truncate','ProductController::truncate');
 
 
 

@@ -5,6 +5,7 @@ use App\Models\ProductModel;
 use CodeIgniter\Files\File;
 use CodeIgniter\Controller;
 use PharIo\Manifest\Library;
+use PHPUnit\Framework\Constraint\IsEmpty;
 helper('session');
 
 class ProductController extends BaseController
@@ -114,6 +115,20 @@ class ProductController extends BaseController
         return $this->response->download($path, null);
     
         
+    }
+    public function truncate()
+    {
+        $model = new ProductModel();
+        if($model->db->tableExists('prpducts'))
+        {
+            $model->db->table('products')->truncate();
+            session()->setFlashdata('success', 'Table Cleared Successfully');
+            return redirect() -> to('/');
+        }else
+        {
+            session()->setFlashdata('error', 'Table Empty');
+            return redirect() -> to('/');
+        }
     }
     
 }

@@ -3,7 +3,8 @@
 
 <div class="float-left">
         <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
-        <a  class="btn btn-primary mb-3 ml-2"><i class="bi bi-database-add"></i> Import DB</a>
+        <a  class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
+        <a  class="btn btn-primary mb-3 ml-2" href="<?php echo base_url('truncate'); ?> "><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
     </div>
 <form class=" mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
     <div class=" float-right mb-3">
@@ -40,7 +41,6 @@
       <div class="modal-body">  
 <form action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
-
     <div class="form-group">
         <label for="name">Name: </label>
         <input type="text" name="name" class="form-control" value="<?= old('name')?>">
@@ -62,13 +62,32 @@
     </div>
 
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Add Product</button>
-        <button class="btn btn-primary"data-dismiss="modal" aria-label="Close">Cancel</button>
+        <button type="submit" class="btn btn-primary" data-backdrop="static">Add Product</button>
+        <button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
     </div>
 </form>
             </div>
         </div>
     </div>
+</div>
+<div class="modal fade" id="uploadModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Import Excel File</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
     <table class="table table-hover table-responsive{-sm|-md|-lg|-xl}">
         <thead>
