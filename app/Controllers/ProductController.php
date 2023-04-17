@@ -118,19 +118,22 @@ class ProductController extends BaseController
     }
     public function truncate()
     {
-        
-        $model = new ProductModel();
-        if($model->db->tableExists('products'))
-        {
-            $model->db->table('products')->truncate();
-            session()->setFlashdata('success', 'Table Cleared Successfully');
-            return redirect() -> to('/');
-        }else
-        {
-            session()->setFlashdata('error', 'Table Empty');
-            return redirect() -> to('/');
-        }
+    $model = new ProductModel();
+    $products = $model->findAll(); 
+    
+    if(!empty($products))
+    {
+        $model->db->table('products')->truncate();
+        session()->setFlashdata('success', 'Table Cleared Successfully');
     }
+    else   
+    {
+        session()->setFlashdata('error', 'Table Empty');
+    }
+    
+    return redirect()->to('/');
+    }
+
     
 }
 ?>

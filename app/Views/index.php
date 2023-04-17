@@ -92,7 +92,7 @@
   </div>
 </div>
 <!-- TABLE START -->
-<div class="table-responsive">
+<div class="table-responsive meow">
     <table class="table table-hover table-sm">
         <thead>
             <tr>
