@@ -20,35 +20,44 @@ class ProductController extends BaseController
     
    public function store()
     {
-    
+
     helper('filesystem');
     helper('url');
+
     $model = new ProductModel();
-    $rules = [
-            'name' => 'required|min_length[2]',
-            'description' => 'min_length[2]',
-            'price' => 'required|numeric',
-        ];
-    $file = $this->request->getFile('pic');
-    $fileName = $file->getRandomName();
-    $file->move('C:\xampp\htdocs\dashboard-OJT\writable\uploads', $fileName);
+    $rules = [ 'name' => 'required|min_length[2]',
+                'description' => 'required|min_length[2]|max_length[255]',
+                'price' => 'required|numeric',
+                'pic' => 'uploaded[pic]|mime_in[pic,image/jpg,image/jpeg,image/png]|max_size[pic,2048]'
+            ];
 
-    $product = [
-        'name' => $this->request->getVar('name'),
-        'description' => $this->request->getVar('description'),
-        'price' => $this->request->getVar('price'),
-        'pic' =>$fileName,
-                
-        ];
-     if (!$this->validate($rules)) {
-             session()->setFlashdata('error', 'Incomplete Form.');
-            return redirect()->to('/');
-     }
-    $model->insert($product);
-    session()->setFlashdata('success', 'PRODUCT ADDED SUCCESSFULLY');
-    return redirect()->to('/');
-
+    if (!$this->validate($rules)) {
+        session()->setFlashdata('error', 'Incomplete or invalid form data.');
+        return redirect()->to('/');
     }
+
+    $file = $this->request->getFile('pic');
+    if (!$file->isValid()) {
+        session()->setFlashdata('error', 'Invalid file uploaded.');
+        return redirect()->to('/');
+    }
+
+    $fileName = $file->getRandomName();
+    $file->move(WRITEPATH . 'uploads', $fileName);
+
+    $product = ['name' => $this->request->getVar('name'),
+                'description' => $this->request->getVar('description'),
+                'price' => $this->request->getVar('price'),
+                'pic' => $fileName,    
+               ];
+
+    $model->insert($product);
+
+    session()->setFlashdata('success', lang('Product Added Successfully'));
+    return redirect()->to('/');
+    
+    }
+
     public function Upload()
     {
         return view('templates/header')
