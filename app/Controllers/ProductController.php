@@ -120,7 +120,7 @@ class ProductController extends BaseController
     {
         
         $model = new ProductModel();
-        if($model->db->tableExists('prpducts'))
+        if($model->db->tableExists('products'))
         {
             $model->db->table('products')->truncate();
             session()->setFlashdata('success', 'Table Cleared Successfully');
