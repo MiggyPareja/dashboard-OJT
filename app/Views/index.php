@@ -1,7 +1,7 @@
 <div class="float-left">
         <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
         <a  class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
-        <a  class="btn btn-danger mb-3 ml-2" href="<?php echo base_url('truncate'); ?> "><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
+        <a  class="btn btn-danger mb-3 ml-2" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
     </div>
 <form class=" mr-2 mb-3"  action="<?= base_url('product/search/') ?>" method="get">
     <div class=" float-right mb-3">
@@ -36,6 +36,7 @@
         </button>
       </div>
       <div class="modal-body">  
+      
 <form action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <div class="form-group">
@@ -82,8 +83,8 @@
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
         <div>
-            <label for="excelFile">Upload File: </label>
-            <input type="file" name="excelFile">
+            <label for="excelFile" name="excelFile">Upload File: </label>
+            <input type="file" name="excelFile" id="excelFile">
         </div>
       
         <div class="modal-footer">

@@ -39,7 +39,7 @@ $routes->get('product/search/','ProductController::search');
 $routes->get('/upload','ProductController::Upload');
 $routes->get('product/download/(:any)', 'ProductController::download/$1');
 $routes->get('/truncate','ProductController::truncate');
-$routes->get('product/import','ProductController::import');
+$routes->post('product/import','ProductController::import');
 
 
 
