@@ -1,12 +1,9 @@
-<!-- <h1 class="ml-2"><a href="/" class="text-decoration-none text-dark">Products</a></h1> -->
-
-
 <div class="float-left">
         <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
         <a  class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
-        <a  class="btn btn-primary mb-3 ml-2" href="<?php echo base_url('truncate'); ?> "><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
+        <a  class="btn btn-danger mb-3 ml-2" href="<?php echo base_url('truncate'); ?> "><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
     </div>
-<form class=" mr-2"  action="<?= base_url('product/search/') ?>" method="get" class="mb-3">
+<form class=" mr-2 mb-3"  action="<?= base_url('product/search/') ?>" method="get">
     <div class=" float-right mb-3">
         <input type="text" name="search" class=" ml-2" on placeholder="Search...">
         <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>
@@ -28,7 +25,7 @@
 <?php if (session()->getFlashdata('query')): ?>
     <div class="alert alert-success timer"><?= session()->getFlashdata('query') ?></div>
 <?php endif; ?>    
-
+<!-- ADD MODAL -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -70,6 +67,7 @@
         </div>
     </div>
 </div>
+<!-- IMPORT MODAL -->
 <div class="modal fade" id="uploadModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -80,26 +78,32 @@
         </button>
       </div>
       <div class="modal-body">
-        
+        <form action="<?= base_url('product/import')?>" method="get" >
+        <?= csrf_field() ?>
+            <label for="excelFile">Upload File: </label>
+            <input type="file" name="excelFile">
+        </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <button type="button" class="btn btn-primary" >Save changes</button>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
       </div>
     </div>
   </div>
 </div>
-    <table class="table table-hover table-responsive{-sm|-md|-lg|-xl}">
+<!-- TABLE START -->
+<div class="table-responsive">
+    <table class="table table-hover table-sm">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Image</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Created At</th>
-                <th>Updated At</th>
-                <th>Actions</th>
+                <th class="user-select-auto">ID</th>
+                <th class="user-select-none">Name</th>
+                <th class="user-select-none">Image</th>
+                <th class="user-select-none">Description</th>
+                <th class="user-select-none">Price</th>
+                <th class="user-select-none">Created At</th>
+                <th class="user-select-none">Updated At</th>
+                <th class="user-select-none">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -107,12 +111,12 @@
             
             <tr>
                 <td class="font-weight-bold">#<?=$product['id'] ?></td>
-                <td><?= $product['name'] ?></td>
-                <td><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
-                <td class="text-wrap "><?= $product['description'] ?></td>
-                <td><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
-                <td><?= $product['created_at'] ?></td>
-                <td><?= $product['updated_at']?></td>
+                <td class="text-break "style="width: 8rem;"><?= $product['name'] ?></td>
+                <td class="text-break "style="width: 10rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
+                <td class="text-break "style="width: 18rem;"><?= $product['description'] ?></td>
+                <td class="text-break "style="width: 8rem;"><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
+                <td class="text-break "style="width: 12rem;"><?= $product['created_at'] ?></td>
+                <td class="text-break "style="width: 12rem;"><?= $product['updated_at']?></td>
                 <td>
                     <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning"><i class="bi bi-pencil-fill"></i> Edit</a>
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
@@ -125,3 +129,4 @@
             <?php endforeach;  ?>  
         </tbody>
     </table>
+    </div>

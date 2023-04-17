@@ -1,12 +1,7 @@
 <?php 
 namespace App\Controllers;
-
 use App\Models\ProductModel;
-use CodeIgniter\Files\File;
-use CodeIgniter\Controller;
-use PharIo\Manifest\Library;
-use PHPUnit\Framework\Constraint\IsEmpty;
-helper('session');
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ProductController extends BaseController
 {
@@ -24,37 +19,42 @@ class ProductController extends BaseController
    }
     
    public function store()
-{
+    {
+    
     helper('filesystem');
     helper('url');
-    $productModel = new ProductModel();
+    $model = new ProductModel();
     $rules = [
             'name' => 'required|min_length[2]',
-            'description' => 'required|min_length[2]',
+            'description' => 'min_length[2]',
             'price' => 'required|numeric',
-            'pic' => 'uploaded[pic]|max_size[pic,2048]'
         ];
-    
-    if (!$this->validate($rules)) {
-        session()->setFlashdata('error', 'Incomplete Form.');
-        return redirect()->to('/');
-    }
-    
     $file = $this->request->getFile('pic');
     $fileName = $file->getRandomName();
     $file->move('C:\xampp\htdocs\dashboard-OJT\writable\uploads', $fileName);
 
-    $product = ['name' => $this->request->getVar('name'),
-                'description' => $this->request->getVar('description'),
-                'price' => $this->request->getVar('price'),
-                'pic' =>$fileName,
-            ];
-    $productModel->insert($product);
+    $product = [
+        'name' => $this->request->getVar('name'),
+        'description' => $this->request->getVar('description'),
+        'price' => $this->request->getVar('price'),
+        'pic' =>$fileName,
+                
+        ];
+     if (!$this->validate($rules)) {
+             session()->setFlashdata('error', 'Incomplete Form.');
+            return redirect()->to('/');
+     }
+    $model->insert($product);
     session()->setFlashdata('success', 'PRODUCT ADDED SUCCESSFULLY');
     return redirect()->to('/');
 
-}
-
+    }
+    public function Upload()
+    {
+        return view('templates/header')
+                .view('upload')
+                .view('templates/footer');
+    }
    public function edit($id)
    {
     $model = new ProductModel();
@@ -118,6 +118,7 @@ class ProductController extends BaseController
     }
     public function truncate()
     {
+        
         $model = new ProductModel();
         if($model->db->tableExists('prpducts'))
         {
