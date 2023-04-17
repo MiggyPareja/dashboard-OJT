@@ -55,7 +55,7 @@ class ProductController extends BaseController
 
     session()->setFlashdata('success', lang('Product Added Successfully'));
     return redirect()->to('/');
-    
+
     }
 
     public function Upload()
@@ -143,6 +143,12 @@ class ProductController extends BaseController
     return redirect()->to('/');
     }
 
+    public function import()
+    {
+
+
+
+    }
     
 }
 ?>

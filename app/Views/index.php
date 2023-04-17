@@ -59,7 +59,7 @@
     </div>
 
     <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" data-backdrop="static">Add Product</button>
+        <button type="submit" class="btn btn-primary">Add Product</button>
         <button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
     </div>
 </form>
@@ -77,20 +77,25 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form action="<?= base_url('product/import')?>" method="get" >
+      
+<div class="modal-body">
+    <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
+        <div>
             <label for="excelFile">Upload File: </label>
             <input type="file" name="excelFile">
-        </form>
-      </div>
-      <div class="modal-footer">
-      <button type="button" class="btn btn-primary" >Save changes</button>
-      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
-      </div>
+        </div>
+      
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Import Excel</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
+        </div>
+    </form>
+</div>
     </div>
   </div>
 </div>
+
 <!-- TABLE START -->
 <div class="table-responsive meow">
     <table class="table table-hover table-sm">
