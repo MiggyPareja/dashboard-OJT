@@ -93,7 +93,7 @@
 </div>
 
 <!-- TABLE START -->    
-<div style="height:500px;" class="table-responsive ml-2 overflow-auto">
+<div style="height:600px;" class="table-responsive ml-2 overflow-auto">
     <div class="float-left d-inline-flex">
             <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
             <a  class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
