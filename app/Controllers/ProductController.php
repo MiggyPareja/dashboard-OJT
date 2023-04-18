@@ -157,16 +157,15 @@ public function delete($id = null)
     $products = $model->findAll(); 
     if(!empty($products))
     {
-        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\session');
-        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads');
         $model->db->table('products')->truncate();
         session()->setFlashdata('success', 'Table Cleared Successfully');
+        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\session');
+        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads');
     }
     else   
     {
         session()->setFlashdata('error', 'Table Already Empty');
     }
-    
     return redirect()->to('/');
     }
 
