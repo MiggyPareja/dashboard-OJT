@@ -1,7 +1,6 @@
 <?php 
 namespace App\Controllers;
 use App\Models\ProductModel;
-use DirectoryIterator;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ProductController extends BaseController
