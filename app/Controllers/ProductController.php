@@ -25,14 +25,15 @@ class ProductController extends BaseController
     helper('url');
 
     $model = new ProductModel();
-    $rules = ['name' => 'required|min_length[2]',
+    $rules = [
+            'name' => 'required|min_length[2]',
             'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
             'price' => 'required|numeric',
             'pic' => 'permit_empty|max_size[pic,2048]'
             ];
 
     if (!$this->validate($rules)) {
-        session()->setFlashdata('error', 'Incomplete or invalid form data.');
+        session()->setFlashdata('errorModal', 'Incomplete or invalid form data.');
         return redirect()->withInput()-> to('/');
     }
 
