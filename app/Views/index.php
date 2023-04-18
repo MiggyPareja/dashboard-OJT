@@ -98,12 +98,12 @@
   </div>
 </div>
 
-<!-- TABLE START -->
-<div class="table-responsive meow">
+<!-- TABLE START -->    
+<div style="height:500px;" class="table-responsive ml-2 overflow-auto">
     <table class="table table-hover table-sm">
-        <thead>
+        <thead class="sticky-top ">
             <tr>
-                <th class="user-select-auto">ID</th>
+                <th class="user-select-none">ID</th>
                 <th class="user-select-none">Name</th>
                 <th class="user-select-none">File/Img</th>
                 <th class="user-select-none">Description</th>
@@ -137,3 +137,5 @@
         </tbody>
     </table>
     </div>
+   
+   

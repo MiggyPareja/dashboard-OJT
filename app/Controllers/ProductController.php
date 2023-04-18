@@ -25,9 +25,9 @@ class ProductController extends BaseController
 
     $model = new ProductModel();
     $rules = ['name' => 'required|min_length[2]',
-            'description' => 'required|min_length[2]|max_length[255]',
+            'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
             'price' => 'required|numeric',
-            'pic' => 'permit_empty|max_size[pic,2048]|'
+            'pic' => 'permit_empty|max_size[pic,2048]'
             ];
 
     if (!$this->validate($rules)) {
@@ -113,7 +113,7 @@ public function delete($id = null)
         unlink($filepath);
     }
 
-    $model->delete($id);
+    $model->delete($product);
     session()->setFlashdata('delete', 'DELETED SUCCESSFULLY.');
     return redirect()->withInput()->to('/');
 }
@@ -150,10 +150,13 @@ public function delete($id = null)
     }
     public function truncate()
     {
+    helper('filesystem');
     $model = new ProductModel();
     $products = $model->findAll(); 
     if(!empty($products))
     {
+        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\session');
+        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads');
         $model->db->table('products')->truncate();
         session()->setFlashdata('success', 'Table Cleared Successfully');
     }
