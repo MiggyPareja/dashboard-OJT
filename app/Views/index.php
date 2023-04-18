@@ -25,6 +25,7 @@
 <?php if (session()->getFlashdata('query')): ?>
     <div class="alert alert-success timer"><?= session()->getFlashdata('query') ?></div>
 <?php endif; ?> 
+
 <!-- ADD MODAL -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -83,11 +84,9 @@
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
         <div>
-            <label for="excelFile" name="excelFile">Upload File/Img: </label>
-            <input type="file" name="excelFile" id="excelFile">
-            
+            <label for="excelFile">Upload File/Img: </label>
+            <input type="file" name="excelFile" id="excelFile">     
         </div>
-      
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Import Excel</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        

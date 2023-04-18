@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Models\ProductModel;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+helper('file');
 
 class ProductController extends BaseController
 {
@@ -214,5 +215,7 @@ public function delete($id = null)
         }
     }
 }  
+
+
 
 ?>
