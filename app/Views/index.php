@@ -1,15 +1,3 @@
-<div class="float-left">
-        <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
-        <a  class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
-        <a  class="btn btn-danger mb-3 ml-2" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
-    </div>
-<form class=" mr-2 mb-3"  action="<?= base_url('product/search/') ?>" method="get">
-    <div class=" float-right mb-3">
-        <input type="text" name="search" class=" ml-2" on placeholder="Search...">
-        <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>
-    </div>
-</form>
-<br> <br>
 <?php if (session()->getFlashdata('success')): ?>
     <div class="alert alert-success timer"><?= session()->getFlashdata('success') ?></div>
 <?php endif; ?>
@@ -25,7 +13,9 @@
 <?php if (session()->getFlashdata('query')): ?>
     <div class="alert alert-success timer"><?= session()->getFlashdata('query') ?></div>
 <?php endif; ?> 
-
+<?php if (session()->getFlashdata('errorModal')): ?>
+    <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
+<?php endif; ?> 
 <!-- ADD MODAL -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -41,7 +31,7 @@
 <form action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <?php if (session()->getFlashdata('errorModal')): ?>
-    <div class="alert alert-success timer"><?= session()->getFlashdata('errorModal') ?></div>
+    <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
     <?php endif; ?>
     <div class="form-group">
         <label for="name">Name: </label>
@@ -103,6 +93,17 @@
 
 <!-- TABLE START -->    
 <div style="height:500px;" class="table-responsive ml-2 overflow-auto">
+    <div class="float-left d-inline-flex">
+            <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
+            <a  class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
+            <a  class="btn btn-danger mb-3 ml-2 mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
+        </div>
+    <form class=" mr-2 mb-3"  action="<?= base_url('product/search/') ?>" method="get">
+        <div class=" float-right mb-3">
+            <input type="text" name="search" class=" ml-2" on placeholder="Search...">
+            <button type="submit" class="btn btn-outline-primary ml-3 mr-3  "><i class="bi bi-search"></i> Search</button>
+        </div>
+    </form>
     <table class="table table-hover">
         <caption><?= esc('Total Number of Entries: '). $count?></caption>
         <thead class="sticky-top">
@@ -112,8 +113,6 @@
                 <th class="user-select-none">File/Img</th>
                 <th class="user-select-none">Description</th>
                 <th class="user-select-none">Price</th>
-                <th class="user-select-none">Created At</th>
-                <th class="user-select-none">Updated At</th>
                 <th class="user-select-none">Actions</th>
             </tr>
         </thead>
@@ -122,23 +121,20 @@
             <tr>
                 <td class="font-weight-bold">#<?=$product['id'] ?></td>
                 <td class="text-break "style="width: 8rem;"><?= $product['name'] ?></td>
-                <td class="text-break "style="width: 10rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
-                <td class="text-break "style="width: 18rem;"><?= $product['description'] ?></td>
+                <td class="text-break "style="width: 20rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
+                <td class="text-break"style="width: 30rem;"><?= $product['description'] ?></td>
                 <td class="text-break "style="width: 8rem;"><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
-                <td class="text-break "style="width: 12rem;"><?= $product['created_at'] ?></td>
-                <td class="text-break "style="width: 12rem;"><?= $product['updated_at']?></td>
                 <td>
-                    <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning"><i class="bi bi-pencil-fill"></i> Edit</a>
+                    <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
                         <?= csrf_field() ?>
                         <input type="hidden" name="method" value="DELETE" >
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')"><i class="bi bi-trash"></i> Delete</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>
             </tr>
             <?php endforeach;  ?>  
         </tbody>
     </table>
-    </div>
-   
+</div>
    

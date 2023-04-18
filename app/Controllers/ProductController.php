@@ -122,6 +122,7 @@ public function delete($id = null)
 }
     public function search()
     {
+        
         $model = new ProductModel();
         $searchTerm = $this->request->getGet('search');
         
@@ -129,7 +130,8 @@ public function delete($id = null)
             'products' =>$model->like(['name'=> $searchTerm])
                                 ->orLike(['description' => $searchTerm])
                                 ->orLike(['price' => $searchTerm])
-                                ->findAll()
+                                ->findAll(),
+            'count' => $model->countAll(),
         ];
         if(empty($searchTerm)|| empty($data['products'])){
             session()->setFlashdata('error', 'DATA IS INVALID OR MISSING');

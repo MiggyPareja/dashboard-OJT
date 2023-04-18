@@ -4,7 +4,7 @@
     <p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 Product Handler Inc.</p>
 
     <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-1 me-md-auto link-body-emphasis text-decoration-none">
-      <i style="font-size: 2rem; color:black;" class="bi bi-cart-fill"></i>
+      <i style="font-size: 2rem; color:black;" class="bi bi-journal-bookmark-fill"></i>
     </a>
 
     <ul class="nav col-md-4 justify-content-end">
