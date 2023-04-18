@@ -158,6 +158,7 @@ public function delete($id = null)
         foreach (new DirectoryIterator('writable\uploads') as $fileInfo) {
             if(!$fileInfo->isDot()) {
                 unlink($fileInfo->getPathname());
+                
             }
         }
         $model->db->table('products')->truncate();
@@ -202,8 +203,9 @@ public function delete($id = null)
                 if(!empty($data[0])){
                     $model->insert(array(
                         'name' => $data[0],
-                        'description' => $data[1],
-                        'price' => $data[2],
+                        'pic' =>$data[1],
+                        'description' => $data[2],
+                        'price' => $data[3],
                     ));
                 }
                     
@@ -211,7 +213,7 @@ public function delete($id = null)
             session()->setFlashdata('success', 'Data imported successfully.');
             return redirect()->to('/');
         }else{
-            session()->setFlashdata('error', 'File Not supported');
+            session()->setFlashdata('error', 'Input empty or not supported');
             return redirect()->to('/');
         }
     }

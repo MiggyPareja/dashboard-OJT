@@ -15,8 +15,8 @@
         <input type="text" class="form-control" id="name" name="name" value="<?= $product['name'] ?>">
     </div>
     <div class="mb-3">
-        <label for="pic" class="form-label" enctype="multipart/form-data">File/Img: </label>
-        <input type="file" id="pic" name="pic">
+        <label for="pic" class="form-label" enctype="multipart/form-data" >File/Img: </label>
+        <input type="file" id="pic" name="pic" value="<?=$product['pic']?>">
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Description: </label>
