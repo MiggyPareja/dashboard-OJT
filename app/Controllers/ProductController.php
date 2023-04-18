@@ -12,6 +12,7 @@ class ProductController extends BaseController
     $model = new ProductModel();
     $data = [
         'products' => $model ->findAll(),
+        'count' => $model->countAll(),
     ];
     
     return  view('templates/header',$data)

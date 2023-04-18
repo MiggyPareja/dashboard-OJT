@@ -103,8 +103,9 @@
 
 <!-- TABLE START -->    
 <div style="height:500px;" class="table-responsive ml-2 overflow-auto">
-    <table class="table table-hover table-sm">
-        <thead class="sticky-top ">
+    <table class="table table-hover">
+        <caption><?= esc('Total Number of Entries: '). $count?></caption>
+        <thead class="sticky-top">
             <tr>
                 <th class="user-select-none">ID</th>
                 <th class="user-select-none">Name</th>
@@ -118,7 +119,6 @@
         </thead>
         <tbody>
             <?php foreach($products as $product): ?>
-            
             <tr>
                 <td class="font-weight-bold">#<?=$product['id'] ?></td>
                 <td class="text-break "style="width: 8rem;"><?= $product['name'] ?></td>
