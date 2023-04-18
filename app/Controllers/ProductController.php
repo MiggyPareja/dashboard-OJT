@@ -155,12 +155,6 @@ public function delete($id = null)
     $products = $model->findAll(); 
     if(!empty($products))
     {
-        foreach (new DirectoryIterator('writable\uploads') as $fileInfo) {
-            if(!$fileInfo->isDot()) {
-                unlink($fileInfo->getPathname());
-                
-            }
-        }
         $model->db->table('products')->truncate();
         session()->setFlashdata('success', 'Table Cleared Successfully');
     }

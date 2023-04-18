@@ -83,8 +83,9 @@
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
         <div>
-            <label for="excelFile" name="excelFile">Upload File: </label>
+            <label for="excelFile" name="excelFile">Upload File/Img: </label>
             <input type="file" name="excelFile" id="excelFile">
+            
         </div>
       
         <div class="modal-footer">
