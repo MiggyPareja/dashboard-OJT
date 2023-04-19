@@ -1,21 +1,4 @@
-<?php if (session()->getFlashdata('success')): ?>
-    <div class="alert alert-success timer"><?= session()->getFlashdata('success') ?></div>
-<?php endif; ?>
-<?php if (session()->getFlashdata('update')): ?>
-    <div class="alert alert-success timer"><?= session()->getFlashdata('update') ?></div>
-<?php endif; ?>
-<?php if (session()->getFlashdata('error')): ?>
-    <div class="alert alert-danger timer"><?= session()->getFlashdata('error') ?></div>
-<?php endif; ?>
-<?php if (session()->getFlashdata('delete')): ?>
-    <div class="alert alert-warning timer"><?= session()->getFlashdata('delete') ?></div>
-<?php endif; ?>  
-<?php if (session()->getFlashdata('query')): ?>
-    <div class="alert alert-success timer"><?= session()->getFlashdata('query') ?></div>
-<?php endif; ?> 
-<?php if (session()->getFlashdata('errorModal')): ?>
-    <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
-<?php endif; ?> 
+ 
 <!-- ADD MODAL -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -58,6 +41,7 @@
         <button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Cancel</button>
     </div>
 </form>
+
             </div>
         </div>
     </div>
@@ -67,7 +51,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Import Excel File</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Import Data from CSV</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -76,11 +60,11 @@
 <div class="modal-body">
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
-        <div>
-            <label for="excelFile">Upload File/Img: </label>
-            <input type="file" name="excelFile" id="excelFile">   
+        <div class="text-wrap">
+            <label for="excelFile"><h5>Upload .csv File:</h5></label>
+            <input type="file" name="excelFile">   
             
-            <span>Download template:<a href="writable\templateFile\Book2.xlsx">Click Me!</a></span>  
+            <span>Download template:<a href="<?= base_url('product/tempDownload/' .'Book1.csv')?>"> Click Me!</a></span>  
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Import Excel</button>
@@ -93,21 +77,41 @@
 </div>
 
 <!-- TABLE START -->    
-<div style="height:550px;" class="table-responsive ml-2 overflow-auto">
-    <div class="float-left d-inline-flex">
-            <a  class="btn btn-primary mb-3 ml-2 " data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
-            <a  class="btn btn-primary mb-3 ml-2" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
-            <a  class="btn btn-danger mb-3 ml-2 mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
+<div style="height:600px;" class="table-responsive overflow-auto">
+    <div class=" d-flex align-items-center">
+        <div class="mr-auto p-2">
+            <a  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
+            <a  class="btn btn-primary" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
+            <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
         </div>
-    <form class=" mr-2 mb-3"  action="<?= base_url('product/search/') ?>" method="get">
-        <div class=" float-right mb-3">
-            <input type="text" name="search" class=" ml-2" on placeholder="Search...">
-            <button type="submit" class="btn btn-outline-primary ml-3 mr-3  "><i class="bi bi-search"></i> Search</button>
-        </div>
-    </form>
+        <form class="  p-2"  action="<?= base_url('product/search/') ?>" method="get">
+            <div class="">
+                <input type="text" name="search" class="ml-2" on placeholder="Search...">
+                <button type="submit" class="btn btn-outline-primary  "><i class="bi bi-search"></i> Search</button>
+            </div>
+        </form>
+    </div>
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success timer"><?= session()->getFlashdata('success') ?></div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('update')): ?>
+        <div class="alert alert-success timer"><?= session()->getFlashdata('update') ?></div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger timer"><?= session()->getFlashdata('error') ?></div>
+    <?php endif; ?>
+    <?php if (session()->getFlashdata('delete')): ?>
+        <div class="alert alert-warning timer"><?= session()->getFlashdata('delete') ?></div>
+    <?php endif; ?>  
+    <?php if (session()->getFlashdata('query')): ?>
+        <div class="alert alert-success timer"><?= session()->getFlashdata('query') ?></div>
+    <?php endif; ?> 
+    <?php if (session()->getFlashdata('errorModal')): ?>
+        <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
+    <?php endif; ?>
     <table class="table table-hover">
-        <caption><?= esc('Total Number of Entries: '). $count?></caption>
-        <thead class="sticky-top">
+        <caption class="ml-2"><?= esc('Total Number of Entries: '). $count?></caption>
+        <thead class="">
             <tr>
                 <th class="user-select-none">ID</th>
                 <th class="user-select-none">Name</th>

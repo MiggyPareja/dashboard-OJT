@@ -40,6 +40,7 @@ $routes->get('/upload','ProductController::Upload');
 $routes->get('product/download/(:any)', 'ProductController::download/$1');
 $routes->get('/truncate','ProductController::truncate');
 $routes->post('product/import','ProductController::import');
+$routes->get('product/tempDownload/(:any)', 'ProductController::tempDownload/$1');
 
 
 

@@ -13,3 +13,7 @@ html {
 ::-webkit-scrollbar-thumb {
     background: #FF0000;
 }
+
+*{
+    scroll-behavior: smooth;
+}

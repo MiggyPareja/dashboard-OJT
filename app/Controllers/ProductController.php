@@ -130,6 +130,7 @@ public function delete($id = null)
             'products' =>$model->like(['name'=> $searchTerm])
                                 ->orLike(['description' => $searchTerm])
                                 ->orLike(['price' => $searchTerm])
+                                ->orLike(['pic' => $searchTerm])
                                 ->findAll(),
             'count' => $model->countAll(),
         ];
@@ -144,12 +145,25 @@ public function delete($id = null)
     }
     public function download($fileName) {
         $path = WRITEPATH . "uploads/" .$fileName ;
+        $templatePath = WRITEPATH . "templateFile/" .$fileName;
 
-        if (!file_exists($path)) {
+        if (!file_exists($path)|| !file_exists($templatePath)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
         }
-    
+        
         return $this->response->download($path, null);
+    
+        
+    }
+    public function tempDownload($fileName) {
+        
+        $templatePath = WRITEPATH . "templateFile/" .$fileName;
+
+        if (!file_exists($templatePath)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
+        }
+        
+        return $this->response->download($templatePath, null);
     
         
     }
@@ -177,47 +191,60 @@ public function delete($id = null)
     {
         helper('form');
         helper('url');
-        
+        helper('text');
+        helper('filesystem');
+    
         $model = new ProductModel();
-        
+    
         $file = $this->request->getFile('excelFile');
         if ($file->isValid() && ! $file->hasMoved())
         {
-            
-            $reader = IOFactory::createReader('Xlsx');
-            $spreadsheet = $reader->load($file->getTempName());
-            
-            
-            $worksheet = $spreadsheet->getActiveSheet();
-            
-            
-            foreach ($worksheet->getRowIterator() as $row)
-            {
-                $cellIterator = $row->getCellIterator();
-                $cellIterator->setIterateOnlyExistingCells(FALSE);
-                
-                $data = array();
-                foreach ($cellIterator as $cell)
-                {
-                    $data[] = $cell->getValue();
-                }
-                if(!empty($data[0])){
+            $handle = fopen($file->getTempName(), "r");
+            fgets($handle);
+            while (($data = fgetcsv($handle)) !== FALSE) {
+                $name = isset($data[0]) ? $data[0] : '';
+                $pic = isset($data[1]) ? $data[1] : '';
+                $description = isset($data[2]) ? $data[2] : '';
+                $price = isset($data[3]) ? $data[3] : '';
+    
+                if (!empty($name)) {
+                    $imageFileName = null;
+                    if (filter_var($pic, FILTER_VALIDATE_URL)) {
+                        // URL provided, download image and store it locally
+                        $imageFile = file_get_contents($pic);
+                        $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
+                        $imageFileName = random_string('basic', 16) . '.' . $imageFileExtension;
+                        write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
+                    } else {
+                        // Local path provided, move the file to the uploads directory
+                        if (is_file($pic)) {
+                            $imageFileName = basename($pic);
+                            $imageFile = file_get_contents($pic);
+                            write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
+                        }
+                    }
+                    
                     $model->insert(array(
-                        'name' => $data[0],
-                        'pic' =>$data[1],
-                        'description' => $data[2],
-                        'price' => $data[3],
+                        'name' => $name,
+                        'pic' => $imageFileName,
+                        'description' => $description,
+                        'price' => $price,
                     ));
                 }
-                    
             }
+            fclose($handle);
+    
             session()->setFlashdata('success', 'Data imported successfully.');
             return redirect()->to('/');
-        }else{
+        } else {
+            
             session()->setFlashdata('error', 'Input empty or not supported');
             return redirect()->to('/');
         }
     }
+    
+
+
 }  
 
 
