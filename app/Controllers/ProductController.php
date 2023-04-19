@@ -11,8 +11,7 @@ class ProductController extends BaseController
    {
     $model = new ProductModel();
     $data = [
-        'products' => $model ->paginate(20),
-        'pager' =>$model->pager,
+        'products' => $model ->findAll(),
         'count' => $model->countAll(),
     ];
     
