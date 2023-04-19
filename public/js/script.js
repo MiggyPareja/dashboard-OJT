@@ -1,3 +1,3 @@
 setTimeout(function(){
     document.querySelector('.alert').remove();
-}, 2500);
+}, 1500);

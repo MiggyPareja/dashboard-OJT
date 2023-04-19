@@ -31,7 +31,7 @@ class ProductController extends BaseController
     // Define the validation rules
     $rules = [
         'name' => 'required|min_length[2]',
-        'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
+        'description' => 'required|min_length[2]',
         'price' => 'required|numeric',
         'pic' => 'permit_empty|max_size[pic,2048]'
     ];
