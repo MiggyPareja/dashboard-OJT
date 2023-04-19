@@ -61,7 +61,7 @@
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
         <div class="text-wrap">
-            <label for="excelFile"><h5>Upload .csv File:</h5></label>
+            <label for="excelFile"><h5>Upload <i class="bi bi-filetype-csv"></i> File:</h5></label>
             <input type="file" name="excelFile">   
             
             <span>Download template:<a href="<?= base_url('product/tempDownload/' .'Book1.csv')?>"> Click Me!</a></span>  
@@ -82,7 +82,7 @@
         <div class="mr-auto p-2">
             <a  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
             <a  class="btn btn-primary" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
-            <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-add"></i> Truncate Table(Dev Tool)</a>
+            <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-dash"></i> Truncate Table(Dev Tool)</a>
         </div>
         <form class="  p-2"  action="<?= base_url('product/search/') ?>" method="get">
             <div class="">

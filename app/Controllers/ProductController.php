@@ -22,46 +22,55 @@ class ProductController extends BaseController
     
    public function store()
 {
-    helper('filesystem');
-    helper('url');
+    // Load necessary helpers
+    helper(['filesystem', 'url']);
 
+    // Load the model
     $model = new ProductModel();
+
+    // Define the validation rules
     $rules = [
-            'name' => 'required|min_length[2]',
-            'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
-            'price' => 'required|numeric',
-            'pic' => 'permit_empty|max_size[pic,2048]'
-            ];
+        'name' => 'required|min_length[2]',
+        'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
+        'price' => 'required|numeric',
+        'pic' => 'permit_empty|max_size[pic,2048]'
+    ];
 
+    // Validate the request data
     if (!$this->validate($rules)) {
-        session()->setFlashdata('errorModal', 'Incomplete or invalid form data.');
-        return redirect()->withInput()-> to('/');
+        return redirect()->back()->withInput()->with('errorModal', 'Incomplete or invalid form data.');
     }
 
+    // Check for valid file upload
     $file = $this->request->getFile('pic');
-    if ($file && !$file->isValid())
-    {
-        session()->setFlashdata('error', 'Invalid file uploaded.');
-        return redirect()->withInput()-> to('/');
+    if ($file && !$file->isValid()) {
+        return redirect()->back()->withInput()->with('error', 'Invalid file uploaded.');
     }
 
-    $product = ['name' => $this->request->getVar('name'),
-                'description' => $this->request->getVar('description'),
-                'price' => $this->request->getVar('price')    
-               ];   
+    // Prepare product data
+    $product = [
+        'name' => $this->request->getVar('name'),
+        'description' => $this->request->getVar('description'),
+        'price' => $this->request->getVar('price'),
+        'pic' => null
+    ];
 
+    // Handle file upload
     if ($file && $file->isValid()) {
         $fileName = $file->getRandomName();
         $file->move(WRITEPATH . 'uploads', $fileName);
         $product['pic'] = $fileName;
     }
 
-    $model->insert($product);
+    // Save the product
+    $model->save($product);
 
-    session()->setFlashdata('success', 'Product Added Successfully');
-    return redirect()->withInput()-> to('/');
+    // Set success message
+    session()->setFlashdata('success', 'Product added successfully.');
+
+    // Redirect to the product list page
+    return redirect()->to('/');
 }
-
 
     public function Upload()
     {
@@ -82,16 +91,31 @@ class ProductController extends BaseController
     
     public function update($id)
 {
+    // Load the necessary helpers
     helper('filesystem');
 
+    // Load the model
     $model = new ProductModel();
 
+    // Validate the request data
+    $rules = [
+        'name' => 'required|min_length[2]',
+        'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
+        'price' => 'required|numeric',
+        'pic' => 'permit_empty|max_size[pic,2048]'
+    ];
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('errorModal', 'Incomplete or invalid form data.');
+    }
+
+    // Prepare data to be updated
     $data = [
         'name' => $this->request->getPost('name'),
         'description' => $this->request->getPost('description'),
         'price' => $this->request->getPost('price'),
     ];
 
+    // Handle file upload
     $file = $this->request->getFile('pic');
     if ($file && $file->isValid()) {
         $fileName = $file->getRandomName();
@@ -99,31 +123,48 @@ class ProductController extends BaseController
         $data['pic'] = $fileName;
     }
 
+    // Update the product
     $model->update($id, $data);
 
+    // Set success message
     session()->setFlashdata('success', 'Product updated successfully.');
 
+    // Redirect to the product list page
     return redirect()->to('/');
 }
 
 
+
 public function delete($id = null)
 {
+    // Load the model
     $model = new ProductModel();
+
+    // Get the product ID to be deleted
     $product = $model->find($id);
 
-    // Delete the uploaded file
+    if (!$product) {
+        // If product not found, set error message and redirect to home page
+        session()->setFlashdata('error', 'Product not found.');
+        return redirect()->to('/');
+    }
+
+    // Delete the uploaded file, if it exists
     $filepath = WRITEPATH . 'uploads/' . $product['pic'];
-    if (file_exists($filepath)) {
+    if (is_file($filepath)) {
         unlink($filepath);
     }
 
-    $model->delete($product);
-    session()->setFlashdata('delete', 'DELETED SUCCESSFULLY.');
-    return redirect()->withInput()->to('/');
+    // Delete the product from the database
+    $model->delete($id);
+
+    // Set success message and redirect to home page
+    session()->setFlashdata('success', 'Product deleted successfully.');
+    return redirect()->to('/');
 }
+
     public function search()
-    {
+{
         $model = new ProductModel();
         $searchTerm = $this->request->getGet('search');
         
@@ -136,14 +177,14 @@ public function delete($id = null)
             'count' => $model->countAll(),
         ];
         if(empty($searchTerm)|| empty($data['products'])){
-            session()->setFlashdata('error', 'DATA IS INVALID OR MISSING');
+            session()->setFlashdata('error', 'Invalid or missing search term.');
             return redirect()->withInput()-> to('/');
         }
-        session()->setFlashdata('query', 'INPUT ACCEPTED');
+        session()->setFlashdata('success', 'Search results for "' . $searchTerm . '".');
         return view('templates/header')
               .view('index', $data)
               .view('templates/footer');
-    }
+}
     public function download($fileName)
     {
         $path = WRITEPATH . "uploads/" .$fileName ;
@@ -174,7 +215,6 @@ public function delete($id = null)
         delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads');
         $model->db->table('products')->truncate();
         session()->setFlashdata('success', 'Table Cleared Successfully');
-        
     }
     else   
     {
