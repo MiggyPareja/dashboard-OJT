@@ -206,13 +206,13 @@ public function delete($id = null)
                 if (!empty($name)) {
                     $imageFileName = null;
                     if (filter_var($pic, FILTER_VALIDATE_URL)) {
-                        // URL provided, download image and store it locally
+                        
                         $imageFile = file_get_contents($pic);
                         $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
                         $imageFileName = random_string('basic', 16) . '.' . $imageFileExtension;
                         write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
                     } else {
-                        // Local path provided, move the file to the uploads directory
+                        
                         if (is_file($pic)) {
                             $imageFileName = basename($pic);
                             $imageFile = file_get_contents($pic);
