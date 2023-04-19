@@ -205,24 +205,21 @@ public function delete($id = null)
         return $this->response->download($templatePath, null);
     }
     public function truncate()
-    {
+{
+    $model = new ProductModel();
+
+    if ($model->countAll() > 0) {
         helper('filesystem');
-        $model = new ProductModel();
-        $products = $model->findAll(); 
-        if(!empty($products))
-    {
-        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\session');
-        delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads');
-        $model->db->table('products')->truncate();
+        delete_files(WRITEPATH . 'session');
+        delete_files(WRITEPATH.'uploads');
+        $model->truncate();
         session()->setFlashdata('success', 'Table Cleared Successfully');
-    }
-    else   
-    {
+    } else {
         session()->setFlashdata('error', 'Table Already Empty');
     }
-    return redirect()->to('/');
-    }
 
+    return redirect()->to('/');
+}
     public function import()
     {
         helper('form');

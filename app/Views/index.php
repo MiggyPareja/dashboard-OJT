@@ -60,14 +60,14 @@
 <div class="modal-body">
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
-        <div class="text-wrap">
+        <div class="text-wrap mb-3 p-2">
             <label for="excelFile"><h5>Upload <i class="bi bi-filetype-csv"></i> File:</h5></label>
             <input type="file" name="excelFile">   
             
-            <span>Download template:<a href="<?= base_url('product/tempDownload/' .'Book1.csv')?>"> Click Me!</a></span>  
+            <span>Download template:<a href="<?= base_url('product/tempDownload/' .'Book1.csv')?>"> <i class="bi bi-download"></i>Download</a></span>  
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Import Excel</button>
+            <button type="submit" class="btn btn-primary">Import</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
         </div>
     </form>
@@ -86,7 +86,7 @@
         </div>
         <form class="  p-2"  action="<?= base_url('product/search/') ?>" method="get">
             <div class="">
-                <input type="text" name="search" class="ml-2 mb-2" on placeholder="Search...">
+                <input type="text" name="search" class="ml-2 mb-2 p-1" on placeholder="Search...">
                 <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>
             </div>
         </form>
