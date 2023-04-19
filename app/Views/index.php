@@ -86,8 +86,8 @@
         </div>
         <form class="  p-2"  action="<?= base_url('product/search/') ?>" method="get">
             <div class="">
-                <input type="text" name="search" class="ml-2" on placeholder="Search...">
-                <button type="submit" class="btn btn-outline-primary  "><i class="bi bi-search"></i> Search</button>
+                <input type="text" name="search" class="ml-2 mb-2" on placeholder="Search...">
+                <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>
             </div>
         </form>
     </div>
@@ -124,12 +124,12 @@
         <tbody>
             <?php foreach($products as $product): ?>
             <tr>
-                <td class="font-weight-bold">#<?=$product['id'] ?></td>
+                <td class="font-weight-bold" style="width: 2rem;">#<?=$product['id'] ?></td>
                 <td class="text-break "style="width: 8rem;"><?= $product['name'] ?></td>
-                <td class="text-break "style="width: 20rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
-                <td class="text-break"style="width: 30rem;"><?= $product['description'] ?></td>
+                <td class="text-break "style="width: 14rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
+                <td class="text-break"style="width: 24rem;"><?= $product['description'] ?></td>
                 <td class="text-break "style="width: 8rem;"><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
-                <td>
+                <td class="text-break "style="width: 8rem;">
                     <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
                         <?= csrf_field() ?>
