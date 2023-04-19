@@ -1,9 +1,6 @@
 <?php 
 namespace App\Controllers;
 use App\Models\ProductModel;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-helper('file');
-
 class ProductController extends BaseController
 {
     
