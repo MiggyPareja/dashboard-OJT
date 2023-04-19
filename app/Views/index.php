@@ -9,7 +9,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">  
+      <div class="modal-body p-2">  
       
 <form action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
@@ -61,7 +61,7 @@
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
         <div class="text-wrap mb-3 p-2">
-            <label for="excelFile"><h5>Upload <i class="bi bi-filetype-csv"></i> File:</h5></label>
+            <label for="excelFile"><h5>Upload File: <i class="bi bi-filetype-csv"></i></h5></label>
             <input type="file" name="excelFile">   
             
             <span>Download template:<a href="<?= base_url('product/tempDownload/' .'Book1.csv')?>"> <i class="bi bi-download"></i>Download</a></span>  

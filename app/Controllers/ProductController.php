@@ -222,10 +222,7 @@ public function delete($id = null)
 }
     public function import()
     {
-        helper('form');
-        helper('url');
-        helper('text');
-        helper('filesystem');
+        helper(['form', 'url', 'text', 'filesystem']);
     
         $model = new ProductModel();
     
