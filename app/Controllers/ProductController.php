@@ -39,7 +39,8 @@ class ProductController extends BaseController
     }
 
     $file = $this->request->getFile('pic');
-    if ($file && !$file->isValid()) {
+    if ($file && !$file->isValid())
+    {
         session()->setFlashdata('error', 'Invalid file uploaded.');
         return redirect()->withInput()-> to('/');
     }
@@ -78,6 +79,7 @@ class ProductController extends BaseController
                 .view('templates/footer');
 
     }
+    
     public function update($id)
 {
     helper('filesystem');
@@ -122,7 +124,6 @@ public function delete($id = null)
 }
     public function search()
     {
-        
         $model = new ProductModel();
         $searchTerm = $this->request->getGet('search');
         
@@ -143,36 +144,31 @@ public function delete($id = null)
               .view('index', $data)
               .view('templates/footer');
     }
-    public function download($fileName) {
+    public function download($fileName)
+    {
         $path = WRITEPATH . "uploads/" .$fileName ;
         $templatePath = WRITEPATH . "templateFile/" .$fileName;
 
         if (!file_exists($path)|| !file_exists($templatePath)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
         }
-        
         return $this->response->download($path, null);
-    
-        
     }
-    public function tempDownload($fileName) {
-        
+    public function tempDownload($fileName)
+    {
         $templatePath = WRITEPATH . "templateFile/" .$fileName;
 
         if (!file_exists($templatePath)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
         }
-        
         return $this->response->download($templatePath, null);
-    
-        
     }
     public function truncate()
     {
-    helper('filesystem');
-    $model = new ProductModel();
-    $products = $model->findAll(); 
-    if(!empty($products))
+        helper('filesystem');
+        $model = new ProductModel();
+        $products = $model->findAll(); 
+        if(!empty($products))
     {
         delete_files('C:\xampp\htdocs\dashboard-OJT\writable\session');
         delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads');
@@ -243,10 +239,5 @@ public function delete($id = null)
         }
     }
     
-
-
 }  
-
-
-
 ?>
