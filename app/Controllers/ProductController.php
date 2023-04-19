@@ -15,7 +15,7 @@ class ProductController extends BaseController
         'count' => $model->countAll(),
     ];
     
-    return  view('templates/header',$data)
+    return  view('templates/header')
            .view('index', $data)
            .view('templates/footer');
    }
@@ -147,9 +147,9 @@ public function delete($id = null)
     public function download($fileName)
     {
         $path = WRITEPATH . "uploads/" .$fileName ;
-        $templatePath = WRITEPATH . "templateFile/" .$fileName;
+        
 
-        if (!file_exists($path)|| !file_exists($templatePath)) {
+        if (!file_exists($path)|| !file_exists($path)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
         }
         return $this->response->download($path, null);
