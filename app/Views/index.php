@@ -64,7 +64,7 @@
             <label for="excelFile"><h5>Upload File: <i class="bi bi-filetype-csv"></i></h5></label>
             <input type="file" name="excelFile">   
             
-            <span>Download template:<a href="<?= base_url('product/tempDownload/' .'Book1.csv')?>"> <i class="bi bi-download"></i>Download</a></span>  
+            <span>Download template:<a href="<?= base_url('product/tempDownload/' .'Book1.csv')?>"> <i class="bi bi-download"></i> Download</a></span>  
         </div>
         <div class="modal-footer">
             <button type="submit" class="btn btn-primary">Import</button>

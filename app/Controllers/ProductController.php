@@ -11,7 +11,8 @@ class ProductController extends BaseController
    {
     $model = new ProductModel();
     $data = [
-        'products' => $model ->findAll(),
+        'products' => $model ->paginate(20),
+        'pager' =>$model->pager,
         'count' => $model->countAll(),
     ];
     
@@ -220,58 +221,59 @@ public function delete($id = null)
 
     return redirect()->to('/');
 }
-    public function import()
+
+public function import()
+{
+    helper(['form', 'url', 'text', 'filesystem']);
+
+    $model = new ProductModel();
+
+    $file = $this->request->getFile('excelFile');
+    if ($file->isValid() && ! $file->hasMoved())
     {
-        helper(['form', 'url', 'text', 'filesystem']);
-    
-        $model = new ProductModel();
-    
-        $file = $this->request->getFile('excelFile');
-        if ($file->isValid() && ! $file->hasMoved())
-        {
-            $handle = fopen($file->getTempName(), "r");
-            fgets($handle);
-            while (($data = fgetcsv($handle)) !== FALSE) {
-                $name = isset($data[0]) ? $data[0] : '';
-                $pic = isset($data[1]) ? $data[1] : '';
-                $description = isset($data[2]) ? $data[2] : '';
-                $price = isset($data[3]) ? $data[3] : '';
-    
-                if (!empty($name)) {
-                    $imageFileName = null;
-                    if (filter_var($pic, FILTER_VALIDATE_URL)) {
-                        
-                        $imageFile = file_get_contents($pic);
-                        $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
-                        $imageFileName = random_string('basic', 16) . '.' . $imageFileExtension;
-                        write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
-                    } else {
-                        
-                        if (is_file($pic)) {
-                            $imageFileName = basename($pic);
-                            $imageFile = file_get_contents($pic);
-                            write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
-                        }
-                    }
+        $handle = fopen($file->getTempName(), "r");
+        fgets($handle);
+        while (($data = fgetcsv($handle)) !== FALSE) {
+            $name = isset($data[0]) ? $data[0] : '';
+            $pic = isset($data[1]) ? $data[1] : '';
+            $description = isset($data[2]) ? $data[2] : '';
+            $price = isset($data[3]) ? $data[3] : '';
+
+            if (!empty($name)) {
+                $imageFileName = null;
+                if (filter_var($pic, FILTER_VALIDATE_URL)) {
                     
-                    $model->insert(array(
-                        'name' => $name,
-                        'pic' => $imageFileName,
-                        'description' => $description,
-                        'price' => $price,
-                    ));
+                    $imageFile = file_get_contents($pic);
+                    $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
+                    $imageFileName = random_string('basic', 16) . '.' . $imageFileExtension;
+                    write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
+                } else {
+                    
+                    if (is_file($pic)) {
+                        $imageFileName = basename($pic);
+                        $imageFile = file_get_contents($pic);
+                        write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
+                    }
                 }
+                
+                $model->insert(array(
+                    'name' => $name,
+                    'pic' => $imageFileName,
+                    'description' => $description,
+                    'price' => $price,
+                ));
             }
-            fclose($handle);
-    
-            session()->setFlashdata('success', 'Data imported successfully.');
-            return redirect()->to('/');
-        } else {
-            
-            session()->setFlashdata('error', 'Input empty or not supported');
-            return redirect()->to('/');
         }
+        fclose($handle);
+
+        session()->setFlashdata('success', 'Data imported successfully.');
+        return redirect()->to('/');
+    } else {
+        
+        session()->setFlashdata('error', 'Input empty or not supported');
+        return redirect()->to('/');
     }
+}
     
 }  
 ?>
