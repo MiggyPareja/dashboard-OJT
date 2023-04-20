@@ -23,7 +23,7 @@
 
     <div class="form-group">
         <label for="pic"  class="">File/Img: </label>
-        <input type="file" id="pic" name="pic">
+        <input type="file" id="pic" name="pic" value="<?= old('pic') ?>">
     </div>
 
     <div class="form-group">
@@ -84,7 +84,7 @@
             <a  class="btn btn-primary" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import DB</a>
             <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-dash"></i> Truncate Table(Dev Tool)</a>
         </div>
-        <form class="  p-2"  action="<?= base_url('product/search/') ?>" method="get">
+        <form class=" mt-2  p-2"  action="<?= base_url('product/search/') ?>" method="get">
             <div class="">
                 <input type="text" name="search" class="ml-2 mb-2 p-1" on placeholder="Search...">
                 <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>

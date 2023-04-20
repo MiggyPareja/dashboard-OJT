@@ -3,9 +3,6 @@ namespace App\Controllers;
 use App\Models\ProductModel;
 class ProductController extends BaseController
 {
-    
-    
-    
    public function store()
 {
     // Load necessary helpers
