@@ -85,7 +85,7 @@
             <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-dash"></i> Truncate Table(Dev Tool)</a>
         </div>
         <form class=" mt-2  p-2"  action="<?= base_url('product/search/') ?>" method="get">
-            <div class="">
+            <div>
                 <input type="text" name="search" class="ml-2 mb-2 p-1" on placeholder="Search...">
                 <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>
             </div>
@@ -109,9 +109,10 @@
     <?php if (session()->getFlashdata('errorModal')): ?>
         <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
     <?php endif; ?>
+    
     <table class="table table-hover">
         <caption class="ml-2"><?= esc('Total Number of Entries: '). $count?></caption>
-        <thead class="">
+        <thead>
             <tr>
                 <th class="user-select-none">ID</th>
                 <th class="user-select-none">Name</th>

@@ -42,31 +42,25 @@ class ProductController extends BaseController
     ];
 
     // Handle file upload
-    if ($file && $file->isValid()) {
+    if ($file && $file->isValid())
+    {
         $fileName = $file->getRandomName();
         $file->move(WRITEPATH . 'uploads', $fileName);
         $product['pic'] = $fileName;
     }
-
     // Save the product
     $model->save($product);
-
     // Set success message
     session()->setFlashdata('success', 'Product added successfully.');
-
     // Redirect to the product list page
     return redirect()->to('/');
 }
-
- 
     public function update($id)
 {
     // Load the necessary helpers
     helper('filesystem');
-
     // Load the model
     $model = new ProductModel();
-
     // Validate the request data
     $rules = [
         'name' => 'required|min_length[2]',
@@ -76,7 +70,6 @@ class ProductController extends BaseController
     if (!$this->validate($rules)) {
         return redirect()->back()->withInput()->with('errorModal', 'Incomplete or invalid form data.');
     }
-
     // Prepare data to be updated
     $data = [
         'name' => $this->request->getPost('name'),
@@ -91,13 +84,10 @@ class ProductController extends BaseController
         $file->move(WRITEPATH . 'uploads', $fileName);
         $data['pic'] = $fileName;
     }
-
     // Update the product
     $model->update($id, $data);
-
     // Set success message
     session()->setFlashdata('success', 'Product updated successfully.');
-
     // Redirect to the product list page
     return redirect()->to('/');
 }
@@ -144,7 +134,8 @@ public function delete($id = null)
                                 ->orLike(['description' => $searchTerm])
                                 ->orLike(['price' => $searchTerm])
                                 ->orLike(['pic' => $searchTerm])
-                                ->findAll(),
+                                ->paginate(10),
+            'pager' => $model->pager,
             'count' =>  $model->countAll(),
         ];
         //if string is empty or if table is empty pass error flashdata then redirect to index
@@ -202,7 +193,7 @@ public function delete($id = null)
     return redirect()->to('/');
 }
 
-public function import()
+    public function import()
 {
     // Load necessary helpers 
     helper(['form', 'url', 'text', 'filesystem']);
