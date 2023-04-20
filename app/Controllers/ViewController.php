@@ -7,6 +7,7 @@
  {
     public function index()
     {
+        
      $model = new ProductModel();
      $data = [
          'products' => $model ->findAll(),

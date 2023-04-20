@@ -1,4 +1,5 @@
 <h1>Edit Product</h1>
+
 <form action="/product/update/<?= $product['id'] ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <div class="mb-3">

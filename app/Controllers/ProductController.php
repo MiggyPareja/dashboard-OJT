@@ -1,9 +1,12 @@
 <?php 
+
 namespace App\Controllers;
 use App\Models\ProductModel;
+
 class ProductController extends BaseController
 {
-   public function store()
+
+    public function store()
 {
     // Load necessary helpers
     helper(['filesystem', 'url']);
@@ -55,8 +58,7 @@ class ProductController extends BaseController
     return redirect()->to('/');
 }
 
-    
-    
+ 
     public function update($id)
 {
     // Load the necessary helpers
@@ -204,8 +206,9 @@ public function delete($id = null)
 public function import()
 {
     
-    // Load necessary helpers and instantiate a new ProductModel object
+    // Load necessary helpers 
     helper(['form', 'url', 'text', 'filesystem']);
+    //Load Model
     $model = new ProductModel();
 
     // Retrieve the uploaded CSV file from the form request
