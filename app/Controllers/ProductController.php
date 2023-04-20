@@ -146,7 +146,7 @@ public function delete($id = null)
                                 ->orLike(['price' => $searchTerm])
                                 ->orLike(['pic' => $searchTerm])
                                 ->findAll(),
-            'count' => $model->countAll(),
+            'count' =>  $model->countAll(),
         ];
         //if string is empty or if table is empty pass error flashdata then redirect to index
         if(empty($searchTerm)|| empty($data['products'])){
@@ -205,7 +205,6 @@ public function delete($id = null)
 
 public function import()
 {
-    
     // Load necessary helpers 
     helper(['form', 'url', 'text', 'filesystem']);
     //Load Model

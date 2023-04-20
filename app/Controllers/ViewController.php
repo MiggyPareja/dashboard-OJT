@@ -7,7 +7,6 @@
  {
     public function index()
     {
-        
      $model = new ProductModel();
      $data = [
          'products' => $model ->paginate(10,'group1'),
