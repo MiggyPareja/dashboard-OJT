@@ -71,8 +71,7 @@ class ProductController extends BaseController
     $rules = [
         'name' => 'required|min_length[2]',
         'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
-        'price' => 'required|numeric',
-        'pic' => 'permit_empty|max_size[pic,2048]'
+        'price' => 'required|numeric'
     ];
     if (!$this->validate($rules)) {
         return redirect()->back()->withInput()->with('errorModal', 'Incomplete or invalid form data.');
@@ -228,7 +227,8 @@ public function import()
             $price = isset($data[3]) ? $data[3] : '';
 
             // If the name field is not empty, process the image file (if provided) and save the data to the database
-            if (!empty($name)) {
+            if (!empty($name))
+            {
                 $imageFileName = null;
                 if (filter_var($pic, FILTER_VALIDATE_URL)) {
                     // If the image is a remote URL, download it and save it to the server
@@ -255,7 +255,6 @@ public function import()
             }
         }
         fclose($handle);
-
         // Set a success message and redirect back to the homepage
         session()->setFlashdata('success', 'Data imported successfully.');
         return redirect()->to('/');
@@ -263,9 +262,6 @@ public function import()
         // If the file is not valid or has already been moved, set an error message and redirect back to the homepage
         session()->setFlashdata('error', 'Input empty or not supported');
         return redirect()->to('/');
+        }
     }
 }
-
-    
-}  
-?>
