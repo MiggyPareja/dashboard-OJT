@@ -80,7 +80,7 @@ class ProductController extends BaseController
     $data = [
         'name' => $this->request->getPost('name'),
         'description' => $this->request->getPost('description'),
-        'price' => $this->request->getPost('price'),
+        'price' => $this->request->getPost('price')
     ];
 
     // Handle file upload

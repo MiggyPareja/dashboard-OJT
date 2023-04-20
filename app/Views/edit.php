@@ -1,13 +1,4 @@
 <h1>Edit Product</h1>
-
-<?php if (session()->has('success')): ?>
-    <div class="alert alert-success"><?= session()->get('success') ?></div>
-<?php endif; ?>
-
-<?php if (isset($validation)): ?>
-    <div class="alert alert-danger"><?= $validation->listErrors() ?></div>
-<?php endif; ?>
-
 <form action="/product/update/<?= $product['id'] ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <div class="mb-3">
