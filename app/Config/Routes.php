@@ -29,14 +29,14 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'ProductController::index');
+$routes->get('/', 'ViewController::index');
 $routes->get('product/create', 'ProductController::create');
 $routes->post('product/store', 'ProductController::store');
-$routes->get('product/edit/(:num)', 'ProductController::edit/$1');
+$routes->get('product/edit/(:num)', 'ViewController::edit/$1');
 $routes->post('product/update/(:num)', 'ProductController::update/$1');
 $routes->post('product/delete/(:num)', 'ProductController::delete/$1');
 $routes->get('product/search/','ProductController::search');
-$routes->get('/upload','ProductController::Upload');
+$routes->get('/upload','ViewController::Upload');
 $routes->get('product/download/(:any)', 'ProductController::download/$1');
 $routes->get('/truncate','ProductController::truncate');
 $routes->post('product/import','ProductController::import');
