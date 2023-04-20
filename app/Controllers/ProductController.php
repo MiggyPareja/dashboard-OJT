@@ -241,7 +241,7 @@ public function import()
     $file = $this->request->getFile('excelFile');
     
     // Check if the file is valid and has not been moved yet
-    if ($file->isValid() && ! $file->hasMoved())
+    if ($file->isValid() && !$file->hasMoved())
     {
         // Open the file and read its contents line by line
         $handle = fopen($file->getTempName(), "r");
