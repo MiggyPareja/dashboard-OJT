@@ -195,64 +195,72 @@ public function delete($id = null)
 
     public function import()
 {
-    // Load necessary helpers 
-    helper(['form', 'url', 'text', 'filesystem']);
-    //Load Model
-    $model = new ProductModel();
+    $time_start = microtime(true); 
 
-    // Retrieve the uploaded CSV file from the form request
-    $file = $this->request->getFile('excelFile');
-    
-    // Check if the file is valid and has not been moved yet
-    if ($file->isValid() && !$file->hasMoved())
-    {
-        // Open the file and read its contents line by line
-        $handle = fopen($file->getTempName(), "r");
-        // Skips first row
-        fgets($handle);
-        while (($data = fgetcsv($handle)) !== FALSE) {
-            // Get the values for each column in the CSV file
-            $name = isset($data[0]) ? $data[0] : '';
-            $pic = isset($data[1]) ? $data[1] : '';
-            $description = isset($data[2]) ? $data[2] : '';
-            $price = isset($data[3]) ? $data[3] : '';
+        for($i=0; $i<10000; $i++ ){
 
-            // If the name field is not empty, process the image file (if provided) and save the data to the database
-            if (!empty($name))
+            helper(['form', 'url', 'text', 'filesystem']);
+            //Load Model
+            $model = new ProductModel();
+        
+            // Retrieve the uploaded CSV file from the form request
+            $file = $this->request->getFile('excelFile');
+            
+            // Check if the file is valid and has not been moved yet
+            if ($file->isValid() && !$file->hasMoved())
             {
-                $imageFileName = null;
-                if (filter_var($pic, FILTER_VALIDATE_URL)) {
-                    // If the image is a remote URL, download it and save it to the server
-                    $imageFile = file_get_contents($pic);
-                    $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
-                    $imageFileName = random_string('basic', 16) . '.' . $imageFileExtension;
-                    write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
-
-                } else {
-                    // If the image is a local file, copy it to the server
-                    if (is_file($pic)) {
-                        $imageFileName = basename($pic);
-                        $imageFile = file_get_contents($pic);
-                        write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
+                // Open the file and read its contents line by line
+                $handle = fopen($file->getTempName(), "r");
+                // Skips first row
+                fgets($handle);
+                while (($data = fgetcsv($handle)) !== FALSE) {
+                    // Get the values for each column in the CSV file
+                    $name = isset($data[0]) ? $data[0] : '';
+                    $pic = isset($data[1]) ? $data[1] : '';
+                    $description = isset($data[2]) ? $data[2] : '';
+                    $price = isset($data[3]) ? $data[3] : '';
+        
+                    // If the name field is not empty, process the image file (if provided) and save the data to the database
+                    if (!empty($name))
+                    {
+                        $imageFileName = null;
+                        if (filter_var($pic, FILTER_VALIDATE_URL)) {
+                            // If the image is a remote URL, download it and save it to the server
+                            $imageFile = file_get_contents($pic);
+                            $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
+                            $imageFileName = random_string('basic', 16) . '.' . $imageFileExtension;
+                            write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
+        
+                        } else {
+                            // If the image is a local file, copy it to the server
+                            if (is_file($pic)) {
+                                $imageFileName = basename($pic);
+                                $imageFile = file_get_contents($pic);
+                                write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
+                            }
+                        }
+                        // Insert the data into the database
+                        $model->insert(array(
+                            'name' => $name,
+                            'pic' => $imageFileName,
+                            'description' => $description,
+                            'price' => $price,
+                        ));
                     }
                 }
-                // Insert the data into the database
-                $model->insert(array(
-                    'name' => $name,
-                    'pic' => $imageFileName,
-                    'description' => $description,
-                    'price' => $price,
-                ));
-            }
+                fclose($handle);
+                // Set a success message and redirect back to the homepage
+                session()->setFlashdata('success', 'Data imported successfully.');
+                return redirect()->to('/');
+            } else {
+                // If the file is not valid or has already been moved, set an error message and redirect back to the homepage
+                session()->setFlashdata('error', 'Input empty or not supported');
+                return redirect()->to('/');
+                }
         }
-        fclose($handle);
-        // Set a success message and redirect back to the homepage
-        session()->setFlashdata('success', 'Data imported successfully.');
-        return redirect()->to('/');
-    } else {
-        // If the file is not valid or has already been moved, set an error message and redirect back to the homepage
-        session()->setFlashdata('error', 'Input empty or not supported');
-        return redirect()->to('/');
-        }
+    // Load necessary helpers 
+    $time_end = microtime(true);
+    $execution_time = ($time_end - $time_start)/60;
+    echo '<b>Total Execution Time:</b> '.$execution_time.' Mins';
     }
 }
