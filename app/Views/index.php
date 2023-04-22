@@ -109,7 +109,7 @@
     <?php if (session()->getFlashdata('errorModal')): ?>
         <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
     <?php endif; ?>
-    <table class="table table-hover">
+    <table class="table table-hover ">
         <caption class="ml-2"><?= esc('Total Number of Entries: '). $count?></caption>
         <thead>
             <tr>
@@ -141,8 +141,9 @@
             <?php endforeach;  ?>  
         </tbody>
     </table>
+    <div><?= $pager->links('group1','default_full') ?></div>
 </div>
-<div><?= $pager->links('group1','default_full') ?></div>
+
 
 
    

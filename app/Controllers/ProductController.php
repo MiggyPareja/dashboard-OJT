@@ -4,13 +4,14 @@ namespace App\Controllers;
 
 use App\Models\ProductModel;
 
+
 class ProductController extends BaseController
 {
 
     public function store()
     {
         // Load necessary helpers
-        helper(['filesystem', 'url']);
+        helper(['filesystem', 'url', 'security']);
 
         // Load the model
         $model = new ProductModel();
@@ -43,6 +44,7 @@ class ProductController extends BaseController
         if ($file && $file->isValid()) {
             $fileName = $file->getRandomName();
             $file->move(WRITEPATH . 'uploads', $fileName);
+            sanitize_filename($fileName);
             $product['pic'] = $fileName;
         }
         // Save the product
@@ -50,12 +52,13 @@ class ProductController extends BaseController
         // Set success message
         session()->setFlashdata('success', 'Product added successfully.');
         // Redirect to the product list page
-        return redirect()->to('/');
+        return redirect()->to(previous_url());
     }
     public function update($id)
     {
         // Load the necessary helpers
         helper('filesystem');
+        helper('security');
         // Load the model
         $model = new ProductModel();
         // Validate the request data
@@ -67,20 +70,24 @@ class ProductController extends BaseController
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errorModal', 'Incomplete or invalid form data.');
         }
+        //Check if File is set/uploaded
+        $file = $this->request->getFile('pic');
+        if (!$file && is_file('pic')) {
+            session() -> setFlashdata('success','Product updated successfully.');
+        }else{
+            $fileName = $file->getRandomName();
+            sanitize_filename($file);
+            $file->move(WRITEPATH . 'uploads', $fileName);
+            
+        }
+
         // Prepare data to be updated
         $data = [
             'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
-            'price' => $this->request->getPost('price')
+            'price' => $this->request->getPost('price'),
+            'pic' => $fileName
         ];
-
-        // Handle file upload
-        $file = $this->request->getFile('pic');
-        if ($file && $file->isValid()) {
-            $fileName = $file->getRandomName();
-            $file->move(WRITEPATH . 'uploads', $fileName);
-            $data['pic'] = $fileName;
-        }
         // Update the product
         $model->update($id, $data);
         // Set success message
@@ -88,7 +95,7 @@ class ProductController extends BaseController
         // Redirect to the product list page
         return redirect()->to('/');
     }
-    public function delete($id = null)
+    public function delete($id)
     {
         // Load the model
         $model = new ProductModel();
@@ -99,7 +106,7 @@ class ProductController extends BaseController
         if (!$product) {
             // If product not found, set error message and redirect to home page
             session()->setFlashdata('error', 'Product not found.');
-            return redirect()->to('/');
+            return redirect()->to(previous_url());
         }
 
         // Delete the uploaded file, if it exists
@@ -113,7 +120,7 @@ class ProductController extends BaseController
 
         // Set success message and redirect to home page
         session()->setFlashdata('success', 'Product deleted successfully.');
-        return redirect()->to('/');
+        return redirect()->to(previous_url());
     }
 
     public function search()
@@ -151,7 +158,7 @@ class ProductController extends BaseController
         //if file path doesnt exists throw exception
         if (!file_exists($path)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
-        }
+        }   
         //else download filePath
         return $this->response->download($path, null);
     }
@@ -163,15 +170,15 @@ class ProductController extends BaseController
         if (!file_exists($templatePath)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException("File not found: $fileName");
         }
-        return $this->response->download($templatePath, null);
+        return $this->response->download($templatePath, null)->setFileName('templates.csv');
     }
     public function truncate()
     {
+        helper('filesystem');
         //Load Model
         $model = new ProductModel();
         //Check if table is empty
         if ($model->countAll() > 0) {
-            helper('filesystem');
             //Delete file from file path to clear uploads and session
             delete_files(WRITEPATH . 'session');
             delete_files(WRITEPATH . 'uploads');
@@ -184,12 +191,12 @@ class ProductController extends BaseController
             session()->setFlashdata('error', 'Table Already Empty');
         }
         //redirect to index
-        return redirect()->to('/');
+        return redirect()->to(previous_url());
     }
 
     public function import()
     {
-        helper(['form', 'url', 'text', 'filesystem']);
+        helper([ 'url', 'text', 'filesystem']);
         //Load Model
         $model = new ProductModel();
 
@@ -216,13 +223,14 @@ class ProductController extends BaseController
                         // If the image is a remote URL, download it and save it to the server
                         $imageFile = file_get_contents($pic);
                         $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
-                        $imageFileName = random_string('sha1', 8) . '.' . $imageFileExtension;
+                        $imageFileName = random_string('alnum', 28) . '.' . $imageFileExtension;
                         write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
                     } else {
                         // If the image is a local file, copy it to the server
                         if (is_file($pic)) {
-                            $imageFileName = basename($pic);
                             $imageFile = file_get_contents($pic);
+                            $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
+                            $imageFileName =  random_string('alnum', 28) . '.' . $imageFileExtension;;
                             write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
                         }
                     }
@@ -239,11 +247,11 @@ class ProductController extends BaseController
             fclose($handle);
             // Set a success message and redirect back to the homepage
             session()->setFlashdata('success', 'Data imported successfully.');
-            return redirect()->to('/');
+            return redirect()->to(previous_url());
         } else {
             // If the file is not valid or has already been moved, set an error message and redirect back to the homepage
             session()->setFlashdata('error', 'Input empty or not supported');
-            return redirect()->to('/');
+            return redirect()->to(previous_url());
         }
     }
 }
