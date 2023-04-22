@@ -135,7 +135,7 @@ class ProductController extends BaseController
                 ->orLike(['description' => $searchTerm])
                 ->orLike(['price' => $searchTerm])
                 ->orLike(['pic' => $searchTerm])
-                ->paginate(10),
+                ->paginate(10,'group1'),
             'pager' => $model->pager,
             'count' =>  $model->countAll(),
         ];
@@ -199,10 +199,8 @@ class ProductController extends BaseController
         helper([ 'url', 'text', 'filesystem']);
         //Load Model
         $model = new ProductModel();
-
         // Retrieve the uploaded CSV file from the form request
         $file = $this->request->getFile('excelFile');
-
         // Check if the file is valid and has not been moved yet
         if ($file->isValid() && !$file->hasMoved()) {
             // Open the file and read its contents line by line
