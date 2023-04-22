@@ -22,12 +22,6 @@
       <li class="nav-item active">
         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/upload">Upload</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Download</a>
-      </li>
     </ul>
   </div>
 </nav>

@@ -28,11 +28,8 @@ class ProductController extends BaseController
             return redirect()->back()->withInput()->with('errorModal', 'Incomplete or invalid form data.');
         }
 
-        // Check for valid file upload
+        // Store File in variable
         $file = $this->request->getFile('pic');
-        if ($file && !$file->isValid()) {
-            return redirect()->back()->withInput()->with('error', 'Invalid file uploaded.');
-        }
 
         // Prepare product data
         $product = [
@@ -91,9 +88,6 @@ class ProductController extends BaseController
         // Redirect to the product list page
         return redirect()->to('/');
     }
-
-
-
     public function delete($id = null)
     {
         // Load the model
@@ -222,7 +216,7 @@ class ProductController extends BaseController
                         // If the image is a remote URL, download it and save it to the server
                         $imageFile = file_get_contents($pic);
                         $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
-                        $imageFileName = random_string('basic', 16) . '.' . $imageFileExtension;
+                        $imageFileName = random_string('sha1', 8) . '.' . $imageFileExtension;
                         write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
                     } else {
                         // If the image is a local file, copy it to the server
@@ -241,6 +235,7 @@ class ProductController extends BaseController
                     ));
                 }
             }
+            //Close the CSV file
             fclose($handle);
             // Set a success message and redirect back to the homepage
             session()->setFlashdata('success', 'Data imported successfully.');

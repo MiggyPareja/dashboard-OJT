@@ -8,7 +8,7 @@
     </div>
     <div class="mb-3">
         <label for="pic" class="form-label">File/Img: </label>
-        <input type="file" id="pic" name="pic" value="<?=$product['pic']?>">
+        <input type="file" id="pic" name="pic" value="<?=old('pic')?>">
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Description: </label>
