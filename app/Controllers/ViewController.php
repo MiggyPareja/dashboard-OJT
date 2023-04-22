@@ -13,6 +13,7 @@
          'products' => $model ->paginate(10,'group1'),
          'pager' => $model->pager,
          'count' => $model->countAll(),
+         
      ];
      
      return  view('templates/header')
