@@ -208,29 +208,21 @@ class ProductController extends BaseController
             // Skips first row
             fgets($handle);
             while (($data = fgetcsv($handle)) !== FALSE) {
-                // Get the values for each column in the CSV file
+                // Get the values for each column in the CSV file, If there is no data, Leave blank
                 $name = isset($data[0]) ? $data[0] : '';
                 $pic = isset($data[1]) ? $data[1] : '';
                 $description = isset($data[2]) ? $data[2] : '';
                 $price = isset($data[3]) ? $data[3] : '';
 
-                // If the name field is not empty, process the image file (if provided) and save the data to the database
+                // If the name field is not empty, process the file (if provided) and save the data to the database
                 if (!empty($name)) {
                     $imageFileName = null;
-                    if (filter_var($pic, FILTER_VALIDATE_URL)) {
-                        // If the image is a remote URL, download it and save it to the server
+                    if (filter_var($pic, FILTER_VALIDATE_URL)|| is_file($pic)) {
+                        // If the image is a remote URL || a file, download it and save it to the server
                         $imageFile = file_get_contents($pic);
                         $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
                         $imageFileName = random_string('alnum', 28) . '.' . $imageFileExtension;
                         write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
-                    } else {
-                        // If the image is a local file, copy it to the server
-                        if (is_file($pic)) {
-                            $imageFile = file_get_contents($pic);
-                            $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
-                            $imageFileName =  random_string('alnum', 28) . '.' . $imageFileExtension;;
-                            write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
-                        }
                     }
                     // Insert the data into the database
                     $model->insert(array(
