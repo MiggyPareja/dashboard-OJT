@@ -125,11 +125,11 @@
             <?php foreach($products as $product): ?>
             <tr>
                 <td class="font-weight-bold" style="width: 2rem;">#<?=$product['id'] ?></td>
-                <td class="text-break "style="width: 8rem;"><?= $product['name'] ?></td>
+                <td class="text-break "style="width: 10rem;"><?= $product['name'] ?></td>
                 <td class="text-break "style="width: 14rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
                 <td class="text-break"style="width: 24rem;"><?= $product['description'] ?></td>
                 <td class="text-break "style="width: 8rem;"><i class="bi bi-currency-dollar"></i><?= $product['price'] ?></td>
-                <td class="text-break "style="width: 8rem;">
+                <td class="text-break "style="width: 10rem;">
                     <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
                         <?= csrf_field() ?>
