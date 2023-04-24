@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\ProductModel;
-use Config\Pager;
+
 
 class ProductController extends BaseController
 {
@@ -17,10 +17,10 @@ class ProductController extends BaseController
 
         // Define the validation rules
         $rules = [
-            'name' => 'required|min_length[3]',
-            'description' => 'required|min_length[3]',
+            'name' => 'required|min_length[2]',
+            'description' => 'required|min_length[2]',
             'price' => 'required|numeric',
-            'pic' => 'uploaded[pic]|max_size[pic,2048]'
+            'pic' => 'permit_empty|max_size[pic,2048]'
         ];
 
         // Validate the request data
@@ -30,20 +30,22 @@ class ProductController extends BaseController
 
         // Store File in variable
         $file = $this->request->getFile('pic');
-        // Handle file upload 
-        if ($file && $file->isValid()) {
-            $fileName = $file->getRandomName();
-            $file->move(WRITEPATH . 'uploads', $fileName);
-            sanitize_filename($fileName);
-        }
+
         // Prepare product data
         $product = [
             'name' => $this->request->getVar('name'),
             'description' => $this->request->getVar('description'),
             'price' => $this->request->getVar('price'),
-            'pic' => $fileName,
+            'pic' => null
         ];
 
+        // Handle file upload
+        if ($file && $file->isValid()) {
+            $fileName = $file->getRandomName();
+            $file->move(WRITEPATH . 'uploads', $fileName);
+            sanitize_filename($fileName);
+            $product['pic'] = $fileName;
+        }
         // Save the product
         $model->save($product);
         // Set success message
@@ -53,39 +55,38 @@ class ProductController extends BaseController
     }
     public function update($id)
     {
-        // Load the necessary helpers
         helper('filesystem');
-        helper('security');
-        // Load the model
         $model = new ProductModel();
-        // Validate the request data
+        $product = $model->find($id);
+    
         $rules = [
-            'name' => 'required|min_length[3]',
-            'description' => 'required|min_length[3]',
-            'price' => 'required|numeric'
+            'name' => 'required|min_length[3]|max_length[255]',
+            'description' => 'required',
+            'price' => 'required|decimal',
         ];
+    
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errorModal', 'Incomplete or invalid form data.');
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-        //Check if File is set/uploaded
+    
         $file = $this->request->getFile('pic');
-        if ($file && is_file($file)) {
-            $fileName = $file->getRandomName();
-            sanitize_filename($file);
-            $file->move(WRITEPATH . 'uploads', $fileName);
+        $filename = $product['pic'];
+    
+        if ($file->isValid()) {
+            $filename = $file->getRandomName();
+            $file->move('C:\xampp\htdocs\dashboard-OJT\writable\uploads', $filename);
+            delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads'.$product['pic']);
         }
-        // Prepare data to be updated
+    
         $data = [
-            'name' => $this->request->getPost('name'),
-            'description' => $this->request->getPost('description'),
-            'price' => $this->request->getPost('price'),
-            'pic' => $fileName
+            'name' => $this->request->getVar('name'),
+            'description' => $this->request->getVar('description'),
+            'price' => $this->request->getVar('price'),
+            'pic' => $filename,
         ];
-        // Update the product
+    
         $model->update($id, $data);
-        // Set success message
-        session()->setFlashdata('success', 'Product updated successfully.');
-        // Redirect to the product list page
+    
         return redirect()->to('/');
     }
     public function delete($id)
@@ -125,9 +126,9 @@ class ProductController extends BaseController
                                 ->orLike(['description' => $searchTerm])
                                 ->orLike(['price' => $searchTerm])
                                 ->orLike(['pic' => $searchTerm])
-                                ->paginate(10),
+                                ->paginate(10,'group1'),
             'pager' => $model->pager,
-            'count' =>  $model->countAllResults()
+            'count' =>  $model->countAll(),
         ];
         //if string is empty or if table is empty pass error flashdata then redirect to index
         if (empty($searchTerm) || empty($data['products'])) {
@@ -213,7 +214,7 @@ class ProductController extends BaseController
                         //Gets file extension ex. [.jpeg,.php,.docx.,.xlsx]
                         $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
                         //Returns File name that consists of imageFile and imageFileExtension
-                        $imageFileName = random_string('alnum', 18) . '.' . $imageFileExtension;
+                        $imageFileName = random_string('alnum', 28) . '.' . $imageFileExtension;
                         //Saves File into wiratable/uploads/
                         write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
                     }
