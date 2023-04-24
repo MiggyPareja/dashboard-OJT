@@ -11,7 +11,7 @@
       </div>
       <div class="modal-body p-2">  
       
-<form action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
+<form class="p-3" action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
     <?= csrf_field() ?>
     <?php if (session()->getFlashdata('errorModal')): ?>
     <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
@@ -41,7 +41,6 @@
         <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
     </div>
 </form>
-
             </div>
         </div>
     </div>
@@ -82,11 +81,11 @@
         <div class="mr-auto p-2">
             <a  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
             <a  class="btn btn-primary" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import data</a>
-            <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="return confirm('Are you sure you want to truncate this table?')"><i class="bi bi-database-dash"></i> Truncate Table(Dev Tool)</a>
+            <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="confirm('Are you sure you want to clear this table?')"><i class="bi bi-database-dash"></i> Truncate Table(Dev Tool)</a>
         </div>
         <form class=" mt-2  p-2"  action="<?= base_url('product/search/') ?>" method="get">
             <div>
-                <input type="text" name="search" class="ml-2 mb-2 p-1" on placeholder="Search...">
+                <input type="text" name="search" class="ml-2 mb-2 p-1"  placeholder="Search...">
                 <button type="submit" class="btn btn-outline-primary ml-2  "><i class="bi bi-search"></i> Search</button>
             </div>
         </form>
