@@ -141,7 +141,7 @@
             <?php endforeach;  ?>  
         </tbody>
     </table>
-    <?= $pager->links() ?>
+    <?php print_r($pager->links() )?>
 </div>
 
 
