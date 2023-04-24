@@ -10,7 +10,7 @@
     {
      $model = new ProductModel();
      $data = [
-         'products' => $model ->paginate(10,'group1'),
+         'products' => $model ->paginate(10),
          'pager' => $model->pager,
          'count' => $model->countAll(),
          

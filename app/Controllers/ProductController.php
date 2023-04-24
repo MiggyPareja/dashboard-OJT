@@ -17,8 +17,8 @@ class ProductController extends BaseController
 
         // Define the validation rules
         $rules = [
-            'name' => 'required|min_length[2]',
-            'description' => 'required|min_length[2]',
+            'name' => 'required|min_length[3]',
+            'description' => 'required|min_length[3]',
             'price' => 'required|numeric',
             'pic' => 'uploaded[pic]|max_size[pic,2048]'
         ];
@@ -60,8 +60,8 @@ class ProductController extends BaseController
         $model = new ProductModel();
         // Validate the request data
         $rules = [
-            'name' => 'required|min_length[2]',
-            'description' => 'required|min_length[2]|max_length[255]|alpha_numeric_space',
+            'name' => 'required|min_length[3]',
+            'description' => 'required|min_length[3]',
             'price' => 'required|numeric'
         ];
         if (!$this->validate($rules)) {
