@@ -3,11 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\ProductModel;
-
+use Config\Pager;
 
 class ProductController extends BaseController
 {
-
     public function store()
     {
         // Load necessary helpers
@@ -21,7 +20,7 @@ class ProductController extends BaseController
             'name' => 'required|min_length[2]',
             'description' => 'required|min_length[2]',
             'price' => 'required|numeric',
-            'pic' => 'permit_empty|max_size[pic,2048]'
+            'pic' => 'uploaded[pic]|max_size[pic,2048]'
         ];
 
         // Validate the request data
@@ -31,22 +30,20 @@ class ProductController extends BaseController
 
         // Store File in variable
         $file = $this->request->getFile('pic');
-
+        // Handle file upload 
+        if ($file && $file->isValid()) {
+            $fileName = $file->getRandomName();
+            $file->move(WRITEPATH . 'uploads', $fileName);
+            sanitize_filename($fileName);
+        }
         // Prepare product data
         $product = [
             'name' => $this->request->getVar('name'),
             'description' => $this->request->getVar('description'),
             'price' => $this->request->getVar('price'),
-            'pic' => null
+            'pic' => $fileName,
         ];
 
-        // Handle file upload
-        if ($file && $file->isValid()) {
-            $fileName = $file->getRandomName();
-            $file->move(WRITEPATH . 'uploads', $fileName);
-            sanitize_filename($fileName);
-            $product['pic'] = $fileName;
-        }
         // Save the product
         $model->save($product);
         // Set success message
@@ -72,15 +69,11 @@ class ProductController extends BaseController
         }
         //Check if File is set/uploaded
         $file = $this->request->getFile('pic');
-        if (!$file && is_file('pic')) {
-            session() -> setFlashdata('success','Product updated successfully.');
-        }else{
+        if ($file && is_file($file)) {
             $fileName = $file->getRandomName();
             sanitize_filename($file);
             $file->move(WRITEPATH . 'uploads', $fileName);
-            
         }
-
         // Prepare data to be updated
         $data = [
             'name' => $this->request->getPost('name'),
@@ -108,16 +101,13 @@ class ProductController extends BaseController
             session()->setFlashdata('error', 'Product not found.');
             return redirect()->to(previous_url());
         }
-
+        // Delete the product from the database
+        $model->delete($id);
         // Delete the uploaded file, if it exists
         $filepath = WRITEPATH . 'uploads/' . $product['pic'];
         if (is_file($filepath)) {
             unlink($filepath);
         }
-
-        // Delete the product from the database
-        $model->delete($id);
-
         // Set success message and redirect to home page
         session()->setFlashdata('success', 'Product deleted successfully.');
         return redirect()->to(previous_url());
@@ -132,12 +122,12 @@ class ProductController extends BaseController
         //Pass string to Like statement finding string from name,desc,price,and pic.
         $data = [
             'products' => $model->like(['name' => $searchTerm])
-                ->orLike(['description' => $searchTerm])
-                ->orLike(['price' => $searchTerm])
-                ->orLike(['pic' => $searchTerm])
-                ->paginate(10,'group1'),
+                                ->orLike(['description' => $searchTerm])
+                                ->orLike(['price' => $searchTerm])
+                                ->orLike(['pic' => $searchTerm])
+                                ->paginate(10,'group1'),
             'pager' => $model->pager,
-            'count' =>  $model->countAll(),
+            'count' =>  $model->countAllResults()
         ];
         //if string is empty or if table is empty pass error flashdata then redirect to index
         if (empty($searchTerm) || empty($data['products'])) {
@@ -220,8 +210,11 @@ class ProductController extends BaseController
                     if (filter_var($pic, FILTER_VALIDATE_URL)|| is_file($pic)) {
                         // If the image is a remote URL || a file, download it and save it to the server
                         $imageFile = file_get_contents($pic);
+                        //Gets file extension ex. [.jpeg,.php,.docx.,.xlsx]
                         $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
+                        //Returns File name that consists of imageFile and imageFileExtension
                         $imageFileName = random_string('alnum', 28) . '.' . $imageFileExtension;
+                        //Saves File into wiratable/uploads/
                         write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
                     }
                     // Insert the data into the database
