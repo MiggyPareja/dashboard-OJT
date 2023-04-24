@@ -55,38 +55,40 @@ class ProductController extends BaseController
     }
     public function update($id)
     {
+        //Load Helper
         helper('filesystem');
+        //Load Model
         $model = new ProductModel();
+        //Find ID
         $product = $model->find($id);
-    
+        //Rules
         $rules = [
-            'name' => 'required|min_length[3]|max_length[255]',
-            'description' => 'required',
-            'price' => 'required|decimal',
+            'name' => 'required|min_length[3]',
+            'description' => 'required|min_length[3]',
+            'price' => 'required',
         ];
-    
+        //If Rules are true conrinue, If false, go to error
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-    
+        // Get File from pic
         $file = $this->request->getFile('pic');
         $filename = $product['pic'];
-    
+        // If file is valid, move file to specified folder
         if ($file->isValid()) {
             $filename = $file->getRandomName();
             $file->move('C:\xampp\htdocs\dashboard-OJT\writable\uploads', $filename);
-            delete_files('C:\xampp\htdocs\dashboard-OJT\writable\uploads'.$product['pic']);
         }
-    
+        //Prepare Product data
         $data = [
             'name' => $this->request->getVar('name'),
             'description' => $this->request->getVar('description'),
             'price' => $this->request->getVar('price'),
             'pic' => $filename,
         ];
-    
+        //Update product using prepared data
         $model->update($id, $data);
-    
+        //Redirect to index
         return redirect()->to('/');
     }
     public function delete($id)
@@ -126,7 +128,7 @@ class ProductController extends BaseController
                                 ->orLike(['description' => $searchTerm])
                                 ->orLike(['price' => $searchTerm])
                                 ->orLike(['pic' => $searchTerm])
-                                ->paginate(10,'group1'),
+                                ->paginate(10),
             'pager' => $model->pager,
             'count' =>  $model->countAll(),
         ];

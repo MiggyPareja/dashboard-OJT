@@ -20,12 +20,7 @@
             .view('index', $data)
             .view('templates/footer');
     }
-    public function Upload()
-    {
-        return view('templates/header')
-                .view('upload')
-                .view('templates/footer');
-    }
+   
     public function edit($id)
     {
         $model = new ProductModel();

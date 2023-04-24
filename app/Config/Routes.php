@@ -42,10 +42,13 @@ $routes->post('product/update/(:num)', 'ProductController::update/$1');
 $routes->post('product/delete/(:num)', 'ProductController::delete/$1');
 //Route for Search
 $routes->get('product/search/','ProductController::search');
-$routes->get('/upload','ViewController::Upload');
+//Route for downloading Files
 $routes->get('product/download/(:any)', 'ProductController::download/$1');
+//Route for truncate
 $routes->get('/truncate','ProductController::truncate');
+//Route for import
 $routes->post('product/import','ProductController::import');
+//Route for Template Download
 $routes->get('product/tempDownload/(:any)', 'ProductController::tempDownload/$1');
 
 
