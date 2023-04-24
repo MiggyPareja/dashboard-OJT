@@ -60,7 +60,7 @@
 <div class="modal-body">
     <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
         <?= csrf_field() ?>
-        <div class="text-wrap mb-3 p-2">
+        <div class="text-wrap mb-1 p-2">
             <label for="excelFile"><h5>Upload File: <i class="bi bi-filetype-csv"></i></h5></label>
             <input type="file" name="excelFile">   
             

@@ -213,7 +213,7 @@ class ProductController extends BaseController
                         //Gets file extension ex. [.jpeg,.php,.docx.,.xlsx]
                         $imageFileExtension = pathinfo(parse_url($pic, PHP_URL_PATH), PATHINFO_EXTENSION);
                         //Returns File name that consists of imageFile and imageFileExtension
-                        $imageFileName = random_string('alnum', 28) . '.' . $imageFileExtension;
+                        $imageFileName = random_string('alnum', 18) . '.' . $imageFileExtension;
                         //Saves File into wiratable/uploads/
                         write_file(WRITEPATH . 'uploads/' . $imageFileName, $imageFile);
                     }
