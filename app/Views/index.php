@@ -141,7 +141,7 @@
             <?php endforeach;  ?>  
         </tbody>
     </table>
-    <div><?= $pager->links('group1','default_full') ?></div>
+    <?= $pager->links('group1','default_full') ?>
 </div>
 
 
