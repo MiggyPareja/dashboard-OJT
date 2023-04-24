@@ -125,7 +125,7 @@ class ProductController extends BaseController
                                 ->orLike(['description' => $searchTerm])
                                 ->orLike(['price' => $searchTerm])
                                 ->orLike(['pic' => $searchTerm])
-                                ->paginate(10,'group1'),
+                                ->paginate(10),
             'pager' => $model->pager,
             'count' =>  $model->countAllResults()
         ];

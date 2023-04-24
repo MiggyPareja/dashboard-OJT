@@ -17,3 +17,6 @@ html {
 *{
     scroll-behavior: smooth;
 }
+footer{
+    z-index: -9999 !important;
+}
