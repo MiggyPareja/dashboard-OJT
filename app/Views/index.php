@@ -134,11 +134,11 @@
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
                         <?= csrf_field() ?>
                         <input type="hidden" name="method" value="DELETE" >
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')"><i class="bi bi-trash"></i></button>
+                        <button type="submit" class="btn btn-danger" onclick="confirm('Are you sure you want to delete this product?')"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>
             </tr>
-            <?php endforeach;  ?>  
+            <?php endforeach; ?>  
         </tbody>
     </table>
     <?php print_r($pager->links() )?>

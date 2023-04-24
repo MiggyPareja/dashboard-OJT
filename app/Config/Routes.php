@@ -11,7 +11,7 @@ $routes = Services::routes();
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('ProductController');
+$routes->setDefaultController('ViewController');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -29,12 +29,18 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
+
+//Route to Index
 $routes->get('/', 'ViewController::index');
-$routes->get('product/create', 'ProductController::create');
+//Route for Add Product
 $routes->post('product/store', 'ProductController::store');
+//Route to get to Edit page
 $routes->get('product/edit/(:num)', 'ViewController::edit/$1');
+//Route for Edit
 $routes->post('product/update/(:num)', 'ProductController::update/$1');
+//Route for delete
 $routes->post('product/delete/(:num)', 'ProductController::delete/$1');
+//Route for Search
 $routes->get('product/search/','ProductController::search');
 $routes->get('/upload','ViewController::Upload');
 $routes->get('product/download/(:any)', 'ProductController::download/$1');
