@@ -1,5 +1,4 @@
- 
-<!-- TABLE START -->    
+ <!-- TABLE START -->    
 <div style="height:600px;" class="table-responsive overflow-auto">
     <div class=" d-flex align-items-center">
         <div class="mr-auto p-2">
@@ -32,20 +31,25 @@
     <?php if (session()->getFlashdata('errorModal')): ?>
         <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
     <?php endif; ?>
+
     <table class="table table-hover  ">
+        <thead>
 <caption class="ml-2">
-    <form action="<?=base_url('pager/index') ?>" method="post" onchange="location = this.value;">
-        <label for="show-entries">Show 
-            <select name="show_entries" id="show-entries">
-                <option value="<?=$pager->getPerPage() == 10?>">10</option>
-                <option value="<?=$pager->getPerPage() == 20?>">20</option>
-                <option value="<?=$pager->getPerPage() == 50?>">50</option>
+    <form action="<?= base_url('/') ?>" name="show_entries" method="post">
+        <?= csrf_field() ?>
+        <label for="show_entries">Show 
+            <select name="show_entries" id="show_entries">
+                <option value="10" <?= $pager->getPerPage() == 10 ? 'selected' : '' ?>>10</option>
+                <option value="20" <?= $pager->getPerPage() == 20 ? 'selected' : '' ?>>20</option>
+                <option value="50" <?= $pager->getPerPage() == 50 ? 'selected' : '' ?>>50</option>
+                <option value="100" <?= $pager->getPerPage() == 100 ? 'selected' : '' ?>>100</option>
             </select>
             Entries
         </label>
+        <button class="btn btn-secondary" type="submit">Filter</button>
     </form>
 </caption>
-        <thead>
+
             <tr>
                 <th class="user-select-none text-center"><h5>ID</h5></th>
                 <th class="user-select-none text-center"><h5>Name</h5></th>
@@ -80,13 +84,14 @@
 <div class="d-inline p-2">
     <div class="align-items-center float-left ml-3">
         <?php if(!empty($products)): ?>
-        Showing <?= ($pager->getCurrentPage() - 1) * $pager->getPerPage() + 1 ?>
-        to <?= min($pager->getCurrentPage() * $pager->getPerPage(), $count) ?> of <?= $count ?> entries
-    </div>
+            Showing <?= ($pager->getCurrentPage() - 1) * $pager->getPerPage() + 1 ?>
+            to <?= min($pager->getCurrentPage() * $pager->getPerPage(), $count) ?> of <?= $count ?> entries
         <?php endif; ?>
+    </div>
     <div class="float-right mr-3"><?= $pager->links() ?></div> 
 </div>
 </div>
+
 
 
 

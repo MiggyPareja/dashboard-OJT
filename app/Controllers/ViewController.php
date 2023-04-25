@@ -6,15 +6,16 @@
 
  class ViewController extends BaseController
  {
-    
-    public function index()
+    public function index($perPage = 10)
 {
+    helper('form');
     $model = new ProductModel();
+    $perPage = $this->request->getPost('show_entries') ?? 10;
     $data = [
-        'products' => $model->paginate(),
+        'products' => $model->paginate($perPage),
         'pager' => $model->pager,
         'count' => $model->countAll(),
-
+        'perPage' => $perPage,
     ];
 
     return view('templates/header')
@@ -22,7 +23,7 @@
         . view('index', $data)
         . view('templates/footer');
 }
-   
+
     public function edit($id)
     {
         $model = new ProductModel();
