@@ -1,79 +1,5 @@
  
-<!-- ADD MODAL -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Add Product</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body p-2">  
-      
-<form class="p-3" action="<?= base_url('product/store') ?>" method="post" enctype="multipart/form-data">
-    <?= csrf_field() ?>
-    <?php if (session()->getFlashdata('errorModal')): ?>
-    <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
-    <?php endif; ?>
-    <div class="form-group">
-        <label for="name">Name: </label>
-        <input type="text" name="name" class="form-control" value="<?= old('name')?>">
-    </div>
 
-    <div class="form-group">
-        <label for="pic"  class="">File/Img: </label>
-        <input type="file" id="pic" name="pic" value="<?= old('pic') ?>">
-    </div>
-
-    <div class="form-group">
-        <label for="description">Description: </label>
-        <textarea name="description" class="form-control"><?= old('description') ?></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="price">Price: </label>
-        <input type="text" name="price" class="form-control" value="<?= old('price') ?>">
-    </div>
-
-    <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" >Add Product</button>
-        <button class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
-    </div>
-</form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- IMPORT MODAL -->
-<div class="modal fade" id="uploadModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Import Data from CSV</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-<div class="modal-body">
-    <form action="<?= base_url('product/import')?>" method="post" enctype="multipart/form-data"> 
-        <?= csrf_field() ?>
-        <div class="text-wrap mb-1 p-2">
-            <label for="excelFile"><h5>Upload File: <i class="bi bi-filetype-csv"></i></h5></label>
-            <input type="file" name="excelFile">   
-            
-            <span>Download template:<a href="<?= base_url('product/tempDownload/' .'template.csv')?>"> <i class="bi bi-download"></i> Download</a></span>  
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Import</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>        
-        </div>
-    </form>
-</div>
-    </div>
-  </div>
-</div>
 
 <!-- TABLE START -->    
 <div style="height:600px;" class="table-responsive overflow-auto">
@@ -108,8 +34,21 @@
     <?php if (session()->getFlashdata('errorModal')): ?>
         <div class="alert alert-danger timer"><?= session()->getFlashdata('errorModal') ?></div>
     <?php endif; ?>
-    <table class="table table-hover ">
-        <caption class="ml-2"><?= esc('Total Number of Entries: '). $count?></caption>
+    <table class="table table-hover  ">
+<caption class="ml-2">
+    <form action="<?= base_url('/') ?>" method="get" class="">
+        <label for="show-entries">Show 
+            <select id="show-entries" name="show_entries">
+                <option value="10" <?= ($selected_entries == 10) ? 'selected' : '' ?>>10</option>
+                <option value="25" <?= ($selected_entries == 25) ? 'selected' : '' ?>>25</option>
+                <option value="50" <?= ($selected_entries == 50) ? 'selected' : '' ?>>50</option>
+                <option value="100" <?= ($selected_entries == 100) ? 'selected' : '' ?>>100</option>
+            </select>
+            Entries
+        </label>
+                <button type="submit" class="btn btn-secondary p-1">Go</button>
+    </form>
+</caption>
         <thead>
             <tr>
                 <th class="user-select-none text-center">ID</th>
@@ -141,7 +80,10 @@
         </tbody>
     </table>
     <!-- Pagination -->
-    <?php print_r($pager->links() )?>
+<div class="d-inline p-2">
+    <div class="align-items-center float-left ml-3">Showing <?= count($products) ?> out of <?= $count ?> results</div>
+    <div class="float-right mr-3"><?= $pager->links() ?></div> 
+</div>
 </div>
 
 

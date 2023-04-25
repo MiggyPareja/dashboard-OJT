@@ -8,15 +8,19 @@
  {
     public function index()
     {
+    
      $model = new ProductModel();
+     $entries = $this->request->getGet('show_entries');
      $data = [
-         'products' => $model ->paginate(10),
+         'products' => $model ->paginate($entries),
          'pager' => $model->pager,
          'count' => $model->countAll(),
+         'selected_entries' => $entries,
          
      ];
      
      return  view('templates/header')
+            .view('modals/modals')
             .view('index', $data)
             .view('templates/footer');
     }

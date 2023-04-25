@@ -51,7 +51,7 @@ class ProductController extends BaseController
         // Set success message
         session()->setFlashdata('success', 'Product added successfully.');
         // Redirect to the product list page
-         return redirect()->to(previous_url());
+         return redirect()-> withInput()-> to(previous_url());
     }
     public function update($id)
     {
@@ -134,15 +134,17 @@ class ProductController extends BaseController
         $model = new ProductModel();
         //Get string that is to be searched
         $searchTerm = $this->request->getGet('search');
+        $entries = $this->request->getGet('show_entries');
         //Pass string to Like statement finding string from name,desc,price,and pic.
         $data = [
             'products' => $model->like(['name' => $searchTerm])
                                 ->orLike(['description' => $searchTerm])
                                 ->orLike(['price' => $searchTerm])
                                 ->orLike(['pic' => $searchTerm])
-                                ->paginate(10),
+                                ->paginate($entries),
             'pager' => $model->pager,
             'count' =>  $model->countAll(),
+            'selected_entries' => $entries,
         ];
         //if string is empty or if table is empty pass error flashdata then redirect to index
         if (empty($searchTerm) || empty($data['products'])) {
@@ -152,6 +154,7 @@ class ProductController extends BaseController
         //else pass success flashdata to index
         session()->setFlashdata('success', 'Search results for "' . $searchTerm . '".');
         return view('templates/header')
+            .view('modals/modals')
             . view('index', $data)
             . view('templates/footer');
     }
