@@ -19,7 +19,6 @@
         'products' => $model->paginate($perPage),
         'pager' => $model->pager,
         'count' => $model->countAll(),
-        'perPage' => $perPage,
     ];
     //Return View
     return view('templates/header')
