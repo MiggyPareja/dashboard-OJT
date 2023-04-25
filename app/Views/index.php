@@ -1,6 +1,4 @@
  
-
-
 <!-- TABLE START -->    
 <div style="height:600px;" class="table-responsive overflow-auto">
     <div class=" d-flex align-items-center">
@@ -36,12 +34,12 @@
     <?php endif; ?>
     <table class="table table-hover  ">
 <caption class="ml-2">
-    <form method="get" onchange="location = this.value;">
+    <form action="<?=base_url('pager/index') ?>" method="post" onchange="location = this.value;">
         <label for="show-entries">Show 
             <select name="show_entries" id="show-entries">
-            <option value="<?=$pager->getPerPage() == 10?>">10</option>
-            <option value="<?=$pager->getPerPage() == 20?>">20</option>
-            <option value="<?=$pager->getPerPage() == 50?>">50</option>
+                <option value="<?=$pager->getPerPage() == 10?>">10</option>
+                <option value="<?=$pager->getPerPage() == 20?>">20</option>
+                <option value="<?=$pager->getPerPage() == 50?>">50</option>
             </select>
             Entries
         </label>

@@ -10,12 +10,11 @@
     public function index()
 {
     $model = new ProductModel();
-    $perPage = null;
     $data = [
-        'products' => $model->paginate($perPage),
+        'products' => $model->paginate(),
         'pager' => $model->pager,
         'count' => $model->countAll(),
-        'perPage' => $perPage,
+
     ];
 
     return view('templates/header')

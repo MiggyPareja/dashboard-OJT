@@ -19,8 +19,7 @@ class ProductController extends BaseController
         $rules = [
             'name' => 'required|min_length[2]',
             'description' => 'required|min_length[2]',
-            'price' => 'required|numeric',
-            'pic' => 'permit_empty|max_size[pic,2048]'
+            'price' => 'required|numeric'
         ];
 
         // Validate the request data
@@ -154,9 +153,9 @@ class ProductController extends BaseController
         //else pass success flashdata to index
         session()->setFlashdata('success', 'Search results for "' . $searchTerm . '".');
         return view('templates/header')
-            .view('modals/modals')
-            . view('index', $data)
-            . view('templates/footer');
+                . view('modals/modals')
+                . view('index', $data)
+                . view('templates/footer');
     }
     public function download($fileName)
     {
