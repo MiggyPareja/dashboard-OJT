@@ -51,7 +51,7 @@ class ProductController extends BaseController
         // Set success message
         session()->setFlashdata('success', 'Product added successfully.');
         // Redirect to the product list page
-        return redirect()->to(previous_url());
+         return redirect()->to(previous_url());
     }
     public function update($id)
     {
@@ -78,7 +78,14 @@ class ProductController extends BaseController
         if ($file->isValid()) {
             $filename = $file->getRandomName();
             $file->move('C:\xampp\htdocs\dashboard-OJT\writable\uploads', $filename);
-        }
+            //Prepare Product data
+            $data = [
+            'name' => $this->request->getVar('name'),
+            'description' => $this->request->getVar('description'),
+            'price' => $this->request->getVar('price'),
+            'pic' => $filename,
+            ];
+        }else{
         //Prepare Product data
         $data = [
             'name' => $this->request->getVar('name'),
@@ -86,10 +93,15 @@ class ProductController extends BaseController
             'price' => $this->request->getVar('price'),
             'pic' => $filename,
         ];
+
+        }
         //Update product using prepared data
         $model->update($id, $data);
+        //Session success
+        session()->setFlashdata('success', 'Product updated successfully.');
         //Redirect to index
         return redirect()->to('/');
+        
     }
     public function delete($id)
     {

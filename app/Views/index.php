@@ -81,7 +81,7 @@
         <div class="mr-auto p-2">
             <a  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter"><i class="bi bi-cart-plus"></i> Add Products</a>
             <a  class="btn btn-primary" data-toggle="modal" data-target="#uploadModalCenter"><i class="bi bi-database-add"></i> Import data</a>
-            <a  class="btn btn-danger mr-4" href="<?php echo base_url('truncate'); ?> " onclick="confirm('Are you sure you want to clear this table?')"><i class="bi bi-database-dash"></i> Truncate Table(Dev Tool)</a>
+            <a  class="btn btn-danger mr-4" href="<?= base_url('truncate'); ?> " onclick="confirm('Are you sure you want to clear this table?')"><i class="bi bi-database-dash"></i> Truncate Table(Dev Tool)</a>
         </div>
         <form class=" mt-2  p-2"  action="<?= base_url('product/search/') ?>" method="get">
             <div>
@@ -112,23 +112,23 @@
         <caption class="ml-2"><?= esc('Total Number of Entries: '). $count?></caption>
         <thead>
             <tr>
-                <th class="user-select-none">ID</th>
-                <th class="user-select-none">Name</th>
-                <th class="user-select-none">File/Img</th>
-                <th class="user-select-none">Description</th>
-                <th class="user-select-none">Price</th>
-                <th class="user-select-none">Actions</th>
+                <th class="user-select-none text-center">ID</th>
+                <th class="user-select-none text-center">Name</th>
+                <th class="user-select-none text-center">File/Img</th>
+                <th class="user-select-none text-center">Description</th>
+                <th class="user-select-none text-center">Price</th>
+                <th class="user-select-none text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach($products as $product): ?>
             <tr>
-                <td class="font-weight-bold align-middle" style="width: 2rem;">#<?=$product['id'] ?></td>
-                <td class="text-break align-middle"style="width: 10rem;"><?= $product['name'] ?></td>
-                <td class="text-break align-middle "style="width: 16rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
-                <td class="text-break align-middle"style="width: 24rem;"><?= $product['description'] ?></td>
-                <td class="text-break align-middle"style="width: 8rem;">$</i><?= $product['price'] ?></td>
-                <td class="text-break align-middle"style="width: 10rem;">
+                <td class="font-weight-bold align-middle text-center" style="width: 2rem;">#<?=$product['id'] ?></td>
+                <td class="text-break align-middle text-center"style="width: 10rem;"><?= $product['name'] ?></td>
+                <td class="text-break align-middle text-center "style="width: 16rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
+                <td class="text-break align-middle text-center"style="width: 24rem;"><?= $product['description'] ?></td>
+                <td class="text-break align-middle text-center"style="width: 8rem;">$</i><?= $product['price'] ?></td>
+                <td class="text-break align-middle text-center"style="width: 10rem;">
                     <a href="<?= base_url('product/edit/'.$product['id']) ?>" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
                     <form action="<?= base_url('product/delete/'.$product['id']) ?>" method="post" class="d-inline">
                         <?= csrf_field() ?>
