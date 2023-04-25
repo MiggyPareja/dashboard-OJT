@@ -32,7 +32,6 @@ $routes->set404Override();
 
 //Route to Index
 $routes->match(['get', 'post'], '/', 'ViewController::index/$1');
-
 //Route for Add Product
 $routes->post('product/store', 'ProductController::store');
 //Route to get to Edit page
