@@ -45,10 +45,10 @@
         <?= csrf_field() ?>
         <label for="show_entries">Show 
             <select name="show_entries" id="show_entries">
-                <option value="10" <?= $pager->getPerPage() == 10, set_select('show_entries', 10 ) ?>>10</option>
-                <option value="20" <?= $pager->getPerPage() == 20, set_select('show_entries', 20 )?>>20</option>
-                <option value="50" <?= $pager->getPerPage() == 50, set_select('show_entries', 50 ) ?>>50</option>
-                <option value="100" <?= $pager->getPerPage() == 100, set_select('show_entries', 100 ) ?>>100</option>
+                <option value="10" <?= $pager->getPerPage() == 10  ?>>10</option>
+                <option value="20" <?= $pager->getPerPage() == 20 ?>>20</option>
+                <option value="50" <?= $pager->getPerPage() == 50 ?>>50</option>
+                <option value="100" <?= $pager->getPerPage() == 100 ?>>100</option>
             </select>
             Entries
         </label>
