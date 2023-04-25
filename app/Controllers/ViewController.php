@@ -6,24 +6,23 @@
 
  class ViewController extends BaseController
  {
-    public function index()
-    {
     
-     $model = new ProductModel();
-     $entries = $this->request->getGet('show_entries');
-     $data = [
-         'products' => $model ->paginate($entries),
-         'pager' => $model->pager,
-         'count' => $model->countAll(),
-         'selected_entries' => $entries,
-         
-     ];
-     
-     return  view('templates/header')
-            .view('modals/modals')
-            .view('index', $data)
-            .view('templates/footer');
-    }
+    public function index()
+{
+    $model = new ProductModel();
+    $perPage = null;
+    $data = [
+        'products' => $model->paginate($perPage),
+        'pager' => $model->pager,
+        'count' => $model->countAll(),
+        'perPage' => $perPage,
+    ];
+
+    return view('templates/header')
+        . view('modals/modals')
+        . view('index', $data)
+        . view('templates/footer');
+}
    
     public function edit($id)
     {

@@ -36,35 +36,33 @@
     <?php endif; ?>
     <table class="table table-hover  ">
 <caption class="ml-2">
-    <form action="<?= base_url('/') ?>" method="get" class="">
+    <form method="get" onchange="location = this.value;">
         <label for="show-entries">Show 
-            <select id="show-entries" name="show_entries">
-                <option value="10" <?= ($selected_entries == 10) ? 'selected' : '' ?>>10</option>
-                <option value="25" <?= ($selected_entries == 25) ? 'selected' : '' ?>>25</option>
-                <option value="50" <?= ($selected_entries == 50) ? 'selected' : '' ?>>50</option>
-                <option value="100" <?= ($selected_entries == 100) ? 'selected' : '' ?>>100</option>
+            <select name="show_entries" id="show-entries">
+            <option value="<?=$pager->getPerPage() == 10?>">10</option>
+            <option value="<?=$pager->getPerPage() == 20?>">20</option>
+            <option value="<?=$pager->getPerPage() == 50?>">50</option>
             </select>
             Entries
         </label>
-                <button type="submit" class="btn btn-secondary p-1">Go</button>
     </form>
 </caption>
         <thead>
             <tr>
-                <th class="user-select-none text-center">ID</th>
-                <th class="user-select-none text-center">Name</th>
-                <th class="user-select-none text-center">File/Img</th>
-                <th class="user-select-none text-center">Description</th>
-                <th class="user-select-none text-center">Price</th>
-                <th class="user-select-none text-center">Actions</th>
+                <th class="user-select-none text-center"><h5>ID</h5></th>
+                <th class="user-select-none text-center"><h5>Name</h5></th>
+                <th class="user-select-none text-center"><h5>File/Img</h5></th>
+                <th class="user-select-none text-center"><h5>Description</h5></th>
+                <th class="user-select-none text-center"><h5>Price</h5></th>
+                <th class="user-select-none text-center"><h5>Actions</h5></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach($products as $product): ?>
             <tr>
-                <td class="font-weight-bold align-middle text-center" style="width: 2rem;">#<?=$product['id'] ?></td>
+                <td class="font-weight-bold align-middle text-center" style="width: 1rem;">#<?=$product['id'] ?></td>
                 <td class="text-break align-middle text-center"style="width: 10rem;"><?= $product['name'] ?></td>
-                <td class="text-break align-middle text-center "style="width: 16rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
+                <td class="text-break align-middle text-center "style="width: 20rem;"><a href="<?= base_url('product/download/' . $product['pic']) ?>"><?= $product['pic'] ?></a></td>
                 <td class="text-break align-middle text-center"style="width: 24rem;"><?= $product['description'] ?></td>
                 <td class="text-break align-middle text-center"style="width: 8rem;">$</i><?= $product['price'] ?></td>
                 <td class="text-break align-middle text-center"style="width: 10rem;">
@@ -79,9 +77,15 @@
             <?php endforeach; ?>  
         </tbody>
     </table>
+    
     <!-- Pagination -->
 <div class="d-inline p-2">
-    <div class="align-items-center float-left ml-3">Showing <?= count($products) ?> out of <?= $count ?> results</div>
+    <div class="align-items-center float-left ml-3">
+        <?php if(!empty($products)): ?>
+        Showing <?= ($pager->getCurrentPage() - 1) * $pager->getPerPage() + 1 ?>
+        to <?= min($pager->getCurrentPage() * $pager->getPerPage(), $count) ?> of <?= $count ?> entries
+    </div>
+        <?php endif; ?>
     <div class="float-right mr-3"><?= $pager->links() ?></div> 
 </div>
 </div>
